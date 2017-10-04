@@ -1,9 +1,9 @@
 
  <br />
  
-### LoanCo Sample App 
+### LoanCo サンプルアプリケーション 
 
-> A sample loan application that demonstrates some common DocuSign API workflows including requesting signatures, embedded signing, forms and data, and real-time status.
+> 署名のリクエストや、埋め込み署名、Webフォームとデータ、リアルタイムなステータスを含む、典型的なDocuSign APIのワークフローのデモンストレーション用ローン申請デモです。
 
 <hr />
 
@@ -17,25 +17,25 @@ __GitHub C#: <a href="https://github.com/DocuSign/sample-app-loanco-csharp" rel=
 <br />
 <br />
 
-<h4>LoanCo features:</h4>
+<h4>LoanCoの機能:</h4>
 
 <ul>
-<li>Send document for signature</li>
-<li>Send from template</li>
-<li>Embedded signing </li>
-<li>Forms and form-field Data</li>
-<li>Real-time status</li>
-<li>Custom Branding</li>
+<li>署名用ドキュメントの送信</li>
+<li>テンプレートを使った送信</li>
+<li>埋め込み署名</li>
+<li>Webフォームとフィールドデータ</li>
+<li>リアルタイムステータス</li>
+<li>カスタムブランディング</li>
 <li>Document visibility</li>
-<li>Signer Attachment Tabs</li>
-<li>Calculated (formula) fields</li>
-<li>Download documents and audit trails</li>
+<li>受信者によるファイル添付</li>
+<li>掲載フィールド/li>
+<li>ドキュメントのダウンロードと監査トラッキング</li>
 </ul>
 </div><div class="col-md-6">
 
 <br />
 <br />
-<h4>API Tools and Links</h4>
+<h4>APIツールとリンク</h4>
 
 <h5>Developer Center</h5>
 https://www.docusign.com/devcenter
@@ -54,13 +54,13 @@ https://apiexplorer.docusign.com/
 
 </div></div>
 
-### About DocuSign 
+### DocuSignについて 
 
-* More than __200 million users__ in __188 countries__
-* More than 300,000 companies
-* More than 300,000 new unique users join The DocuSign Global Trust Network every day
-* More than 64% of documents are completed within one hour
-* DocuSign is available in 43 languages
+* 2億以上のユーザーと188カ国での利用
+* 30万以上の企業での導入実績
+* 30万以上の新規ユニークユーザーがDocuSignのグローバルで信頼されたネットワークにご参加
+* 64%以上のドキュメントが1時間以内に完了ステータスとなる
+* DocuSignは43カ国以上でご利用可能
 
 <br />
 

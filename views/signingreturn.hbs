@@ -9,7 +9,7 @@
 			<div class="">
 				{{#ifCond event "==" "signing_complete"}}
 					<h2 class="text-center">
-						Signing Complete!
+						署名が完了しました!
 					</h2>
 					<p>
 						{{msg}}
@@ -17,7 +17,7 @@
 				{{else}}
 					<h2 class="">
 						{{#if event}}
-							Return Event: {{event}}
+							応答イベント: {{event}}
 						{{/if}}
 					</h2>
 					<p>
@@ -31,19 +31,19 @@
 					{{#if waitingForRemote}}
 						<div>
 							<strong>
-								Your application has been completed and is pending review. We will be in touch soon!
+								お申込みを受付致しました。現在内容レビュー中です。完了致しましたらご連絡致します。
 							</strong>
 						</div>
 					{{else}}
 						{{#if nextUrl}}
 							<div>
 								<strong>
-									<a href="{{nextUrl}}">Click to go to the next Signer</a>
+									<a href="{{nextUrl}}">次の署名者へすすめるためにクリックして下さい</a>
 								</strong>
 							</div>
 						{{else}}
 							<div>
-								<a href="/">Back to Home</a>
+								<a href="/">ホームに戻る</a>
 							</div>
 						{{/if}}
 					{{/if}}
@@ -52,7 +52,7 @@
 					<div>
 						<p>
 							<br />
-							<a href="/envelopes">View My Submissions</a>
+							<a href="/envelopes">エンベロープの確認</a>
 						</p>
 					</div>
 
@@ -69,15 +69,15 @@
 				<div class="row">
 					<div class="col-md-10 col-md-offset-1">
 						<h4>
-						  Get Started with the DocuSign API Today
+						  DocuSign APIを今日からはじめましょう
 						</h4>
 						<br />
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6 col-md-offset-3">
+					<div class="col-md-7 col-md-offset-3">
 						<a class="btn btn-lg btn-default btn-block" href="https://secure.docusign.com/signup/developer" target="_blank">
-						  Get Your Sandbox
+						  サンドボックス環境の取得
 						</a>
 					</div>
 				</div>
@@ -85,7 +85,7 @@
 					<div class="col-md-12">
 						<p>
 						  <br />
-						  With the Developer Sandbox you can test our APIs for free! Sandbox accounts do not expire and have Enterprise level features enabled.
+						  サンドボックス環境を使って、APIを無料でお試しいただけます! サンドボックス環境は期間の制約無しに、大半の機能をご利用いただけます。
 						</p>
 					</div>
 				</div>
@@ -97,62 +97,62 @@
 			<br />
 
 			<h4>
-				Possible Signing Return Events
+				署名時の応答イベント
 			</h4>
 
 			<div>
 
 				<p>
-					When a signer returns from an Embedded Signing experience, your application receives one of the following events in the query string: 
+					ブラウザ内の埋め込み署名画面から署名者がアプリ画面に戻ってきた際に、作成したカスタムアプリはクエリストリング情報として下記のイベントのうち1つを受け取ります: 
 				</p>
 
 				<div>
 					<p>
 						<strong>signing_complete</strong>
 						<br />
-						The recipient has signed the document!  The document will be securely stored on the DocuSign, Inc. servers.
+						受信者の署名が完了しました! 署名されたドキュメントは、DocuSignのサーバーにセキュアに保存されます。
 					</p>
 
 					<p>
 						<strong>cancel</strong>
 						<br />
-						The recipient decides to finish later. The clicked 'Finish Later' instead of 'Decline to Sign'
+						受信者が、「署名の辞退」ではなく、「保存して後で対応する」を選択しました。
 					</p>
 
 					<p>
 						<strong>decline</strong>
 						<br />
-						The recipient declined to sign the document. This has VOIDED the document.
+						受信者が、「署名の辞退」を選択しました。本ドキュメントは無効となりました。
 					</p>
 
 					<p>
 						<strong>exception</strong>
 						<br />
-						An exception has occurred on the server during the signing session.  Please check the parameters passed to the Web Service Methods.
+						署名セッション中、サーバーでエラーが発生しました。Webサービスに渡されたパラメータをご確認下さい。
 					</p>
 
 					<p>
 						<strong>fax_pending</strong>
 						<br />
-						Recipient has a fax pending.
+						保留中のFaxがあります。
 					</p>
 
 					<p>
 						<strong>session_timeout</strong>
 						<br />
-						The recipient did not sign the document in time.  The timeout is set to 20 minutes.
+						受信者が、設定時間内に署名を行いませんでした。デフォルトのタイムアウト時間は20分です。
 					</p>
 
 					<p>
 						<strong>ttl_expired</strong>
 						<br />
-						The token was not used within the timeout period or the token was already accessed. 
+						トークンがタイムアウト期間内に利用されなかったか、すでに利用済みトークン情報であったためです。
 					</p>
 
 					<p>
 						<strong>viewing_complete</strong>
 						<br />
-						The recipient did not need to sign but has completed the viewing ceremony. 
+						受信者が、文書の参照を完了しました(署名不要の場合)。
 					</p>
 
 					<p>

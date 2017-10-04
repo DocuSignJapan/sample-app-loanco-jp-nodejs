@@ -8,23 +8,23 @@
 		<br />
 
 		<h3>
-			Submissions Status
+			送信ステータス
 		</h3>
 
 	    <p class="h3-hint">
-	      Only available in your current session. (<a href="/restart-session">restart session</a>)
+	      現在のセッションのみのトランザクション情報が利用可能です。(<a href="/restart-session">セッションの再取得</a>)
 	    </p>
 
 		<table class="table table-minimal">
 			<thead>
 				<th>
-					Subject
+					タイトル
 				</th>
 				<th>
-					Applicant
+					申請者
 				</th>
 				<th>
-					Last Updated
+					最終更新
 				</th>
 				<th>
 					
@@ -48,15 +48,15 @@
 						<td>
 							<div class="dropdown">
 							  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							    Options
+							    オプション
 							    <span class="caret"></span>
 							  </button>
 							  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 							  	{{#each documents}}
-							    	<li><a href="/envelopes/{{../data.envelopeId}}/download/{{documentId}}" target="_blank">Download {{name}}</a></li>
+							    	<li><a href="/envelopes/{{../data.envelopeId}}/download/{{documentId}}" target="_blank">{{name}}のダウンロード</a></li>
 							  	{{/each}}
 							  	<li role="separator" class="divider"></li>
-							    <li><a href="/envelopes/{{envelopeId}}/download/combined" target="_blank">Download Combined</a></li>
+							    <li><a href="/envelopes/{{envelopeId}}/download/combined" target="_blank">結合された文書のダウンロード</a></li>
 							  </ul>
 							</div>
 						</td>
@@ -71,7 +71,10 @@
 			<br />
 
 			<h3>
-				Create some loan transactions and they will start showing up here...
+				3つのサンプルから、何らかのローンを申し込んで下さい。
+			</h3>
+			<h3>
+				申し込んだ結果がこちらに表示されます。
 			</h3>
 
 			<br />

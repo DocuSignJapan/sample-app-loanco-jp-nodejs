@@ -9,7 +9,7 @@
     <div class="col-sm-5 col-sm-offset-1">
 
       <h2 class="text-center">
-        Auto Loan Application
+        自動車ローン申し込み
       </h2>
 
       <hr />
@@ -17,37 +17,37 @@
       <form id="mainForm1" data-toggle="validator" method="POST" action="/loan/auto">
 
         <div class="form-group">
-          <label for="inputFirstName">First Name</label>
-          <input type="text" class="form-control" id="inputFirstName" name="inputFirstName" placeholder="" required value="Edgar">
+          <label for="inputLastName">姓</label>
+          <input type="text" class="form-control" id="inputLastName" name="inputLastName" placeholder="" required value="佐藤">
           <div class="help-block with-errors"></div>
         </div>
         <div class="form-group">
-          <label for="inputLastName">Last Name</label>
-          <input type="text" class="form-control" id="inputLastName" name="inputLastName" placeholder="" required value="Holmes">
+          <label for="inputFirstName">名</label>
+          <input type="text" class="form-control" id="inputFirstName" name="inputFirstName" placeholder="" required value="達也">
           <div class="help-block with-errors"></div>
         </div>
 
         <div class="form-group">
-          <label for="inputEmail">Email Address</label>
+          <label for="inputEmail">メールアドレス</label>
           <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="" required value="{{default_email}}">
           <div class="help-block with-errors"></div>
         </div>
 
         <div class="form-group">
-          <label for="inputPhone">Phone Number</label>
+          <label for="inputPhone">電話番号</label>
           <input type="tel" class="form-control" id="inputPhone" name="inputPhone" placeholder="" value="" />
           <div class="help-block with-errors"></div>
         </div>
 
         <p>
           <span class="collapseTrigger collapsed" data-toggle="collapse" data-target="#collapseAdvanced" aria-expanded="false" aria-controls="collapseAdvanced">
-            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> Advanced
+            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> 追加情報
           </span>
         </p>
         <div class="collapse" id="collapseAdvanced">
 
           <div class="form-group">
-            <label for="input">Signing Location</label>
+            <label for="input">署名方法</label>
             <select class="form-control" name="inputSigningLocation">
               {{#each signing_location_options}}
                 <option value="{{this}}" {{#ifCond this "==" ../config.signing_location}}selected{{/ifCond}}>
@@ -57,20 +57,20 @@
             </select>
 
             <span class="help-block">
-              Embed the signing experience, or send an email (remote) 
+              本画面内での署名 (enbedded) もしくはメールでの署名案内送信 (remote) 
             </span>
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group">
-            <label for="access_code">Access Code</label>
+            <label for="access_code">アクセスコード</label>
             <input type="text" class="form-control" id="access_code" name="inputAccessCode" placeholder="" value="{{config.access_code}}" />
             <span class="help-block">
-              Set an Access Code for this customer to enter before signing documents
+              ドキュメントへ署名する前にお客様に入力していただくアクセスコードを設定 (任意)
             </span>
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group">
-            <label for="authentication">Additional Authentication</label>
+            <label for="authentication">追加認証</label>
             <select class="form-control" name="inputAuthentication" disabled>
               {{#each authentication_options}}
                 <option value="{{this}}" {{#ifCond this "==" ../config.authentication}}selected{{/ifCond}}>
@@ -79,9 +79,9 @@
               {{/each}}
             </select>
             <span class="help-block">
-              Enable Phone Authentication to receive a verification phone call before signing documents (<a href="https://support.docusign.com/guides/ndse-user-guide-how-phone-authentication-works" target="_blank">Learn More</a>)
+              ドキュメントへ署名する前に電話による認証を有効化 (<a href="https://support.docusign.com/guides/ndse-user-guide-how-phone-authentication-works" target="_blank">詳細参照</a>)
               <br />
-              * This can be enabled when using your own account 
+              * 本設定はDocuSign側設定で有効化可能 
             </span>
           </div>
         </div>
@@ -91,43 +91,43 @@
 
         <div class="checkbox">
           <label>
-            <input type="checkbox" id="inputCosignerCheckbox" name="inputCosignerCheckbox" /> Include Cosigner
+            <input type="checkbox" id="inputCosignerCheckbox" name="inputCosignerCheckbox" /> 共同署名者を含む
           </label>
         </div>
         <div class="cosigner" style="display:none;">
           <h3>
-            CoSigner Information
+            共同署名者情報
           </h3>
           <div class="form-group">
-            <label for="inputCosignerFirstName">First Name</label>
-            <input type="text" class="form-control" id="inputCosignerFirstName" name="inputCosignerFirstName" placeholder="" required value="James" />
+            <label for="inputCosignerLastName">姓</label>
+            <input type="text" class="form-control" id="inputCosignerLastName" name="inputCosignerLastName" placeholder="" required value="山川" />
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group">
-            <label for="inputCosignerLastName">Last Name</label>
-            <input type="text" class="form-control" id="inputCosignerLastName" name="inputCosignerLastName" placeholder="" required value="Wilson" />
+            <label for="inputCosignerFirstName">名</label>
+            <input type="text" class="form-control" id="inputCosignerFirstName" name="inputCosignerFirstName" placeholder="" required value="譲一" />
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group">
-            <label for="inputCosignerEmail">Email Address</label>
+            <label for="inputCosignerEmail">メールアドレス</label>
             <input type="email" class="form-control" id="inputCosignerEmail" name="inputCosignerEmail" placeholder="" value="{{default_email}}" />
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group">
-            <label for="inputCosignerPhone">Phone Number</label>
+            <label for="inputCosignerPhone">電話番号</label>
             <input type="tel" class="form-control" id="inputCosignerPhone" name="inputCosignerPhone" placeholder="" value="" />
             <div class="help-block with-errors"></div>
           </div>
 
           <p>
             <span class="collapseTrigger collapsed" data-toggle="collapse" data-target="#collapseAdvancedCosigner" aria-expanded="false" aria-controls="collapseAdvancedCosigner">
-              <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> Advanced
+              <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> 追加情報
             </span>
           </p>
           <div class="collapse" id="collapseAdvancedCosigner">
 
             <div class="form-group">
-              <label for="input">Signing Location</label>
+              <label for="input">署名方法</label>
               <select class="form-control" name="inputSigningLocationCosigner">
                 {{#each signing_location_options}}
                   <option value="{{this}}" {{#ifCond this "==" ../config.signing_location}}selected{{/ifCond}}>
@@ -137,20 +137,20 @@
               </select>
 
               <span class="help-block">
-                Embed the signing experience, or send an email (remote) 
+                本画面内での署名 (enbedded) もしくはメールでの署名案内送信 (remote) 
               </span>
               <div class="help-block with-errors"></div>
             </div>
             <div class="form-group">
-              <label for="access_codeCosigner">Access Code</label>
+              <label for="access_codeCosigner">アクセスコード</label>
               <input type="text" class="form-control" id="access_codeCosigner" name="inputAccessCodeCosigner" placeholder="" value="{{config.access_code}}" />
               <span class="help-block">
-                Set an Access Code for this customer to enter before signing documents
+                ドキュメントへ署名する前にお客様に入力していただくアクセスコードを設定 (任意)
               </span>
               <div class="help-block with-errors"></div>
             </div>
             <div class="form-group">
-              <label for="authenticationCosigner">Additional Authentication</label>
+              <label for="authenticationCosigner">追加認証</label>
               <select class="form-control" name="inputAuthenticationCosigner" disabled>
                 {{#each authentication_options}}
                   <option value="{{this}}" {{#ifCond this "==" ../config.authentication}}selected{{/ifCond}}>
@@ -159,9 +159,9 @@
                 {{/each}}
               </select>
               <span class="help-block">
-                Enable Phone Authentication to receive a verification phone call before signing documents (<a href="https://support.docusign.com/guides/ndse-user-guide-how-phone-authentication-works" target="_blank">Learn More</a>)
+                ドキュメントへ署名する前に電話による認証を有効化 (<a href="https://support.docusign.com/guides/ndse-user-guide-how-phone-authentication-works" target="_blank">詳細参照</a>)
                 <br />
-                * This can be enabled when using your own account 
+                * 本設定はDocuSign側設定で有効化可能
               </span>
             </div>
           </div>
@@ -174,19 +174,19 @@
         <hr />
 
         <h4>
-          Financials
+          お借り上げ情報
         </h4>
         <div class="form-group">
-          <label for="inputLoanAmount">Desired Loan Amount</label>
+          <label for="inputLoanAmount">ご希望融資金額</label>
           <div>
-            <input type="number" class="form-control" id="inputLoanAmount" name="inputLoanAmount" placeholder="" required value="36000" style="display:inline-block;width:80px;text-align:center;" /> dollars
+            <input type="number" class="form-control" id="inputLoanAmount" name="inputLoanAmount" placeholder="" required value="36000" style="display:inline-block;width:100px;text-align:right;" /> 円
           </div>
           <div class="help-block with-errors"></div>
         </div>
         <div class="form-group">
-          <label for="inputLoanLength">Repayment Terms</label>
+          <label for="inputLoanLength">支払い回数</label>
           <div>
-            <input type="number" class="form-control" id="inputLoanLength" name="inputLoanLength" placeholder="" required value="36" style="display:inline-block;width:80px;text-align:center;" /> months
+            <input type="number" class="form-control" id="inputLoanLength" name="inputLoanLength" placeholder="" required value="36" style="display:inline-block;width:70px;text-align:right;" /> ヶ月
           </div>
           <div class="help-block with-errors"></div>
         </div>
@@ -196,7 +196,7 @@
         <div class="row">
           <div class="col-sm-12 text-center">
             <button type="submit" class="btn btn-primary has-spinner">
-              Start Auto Loan Application
+              自動車ローン申し込み
               <span class="spinner"><i class="fa fa-spinner fa-spin icon-spin"></i></span>
             </button>
           </div>
@@ -226,14 +226,14 @@
     <div class="col-sm-6">
 
       <h2 class="text-center" style="opacity:0;">
-        Auto Loan Application
+        自動車ローン申し込み
       </h2>
 
       <hr />
 
       <p class="text-right2">
         <span class="collapseTrigger collapsed" data-toggle="collapse" data-target="#collapseHow" aria-expanded="false" aria-controls="collapseHow">
-          <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> See behind the scenes
+          <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> 本ケースの背景
         </span>
       </p>
       <div class="collapse" id="collapseHow">
@@ -241,40 +241,40 @@
         <hr />
 
         <h4>
-          This Sample Features:
+          本サンプルの機能:
         </h4>
         <ul>
-          <li>Send from a Template</li>
-          <li>Mutiple Signers</li>
-          <li>Mutiple Documents</li>
-          <li>Calculated (Formula) Tabs</li>
+          <li>テンプレートを利用した送信</li>
+          <li>複数の署名者</li>
+          <li>複数の文書</li>
+          <li>計算フィールド</li>
         </ul>
 
         <br />
 
 
         <h4>
-          Code Flow: 
+          コードの流れ: 
         </h4>
 
         <h5>
-          Step 1
+          ステップ 1
         </h5>
 
         <p>
-          When the form is submitted we use the <a href="https://docs.docusign.com/esign/restapi/Envelopes/Envelopes/create/" target="_blank">Envelopes: create</a> API to create the signature request with the corresponding form information. Since we are using a Template in this case the <code>templateId</code> property is used to apply a given template to the envelope and the <code>templateRoles</code> node is used to assign recipient(s) to roles within the template. 
+          入力されたフォーム情報が送信された際に、<a href="https://docs.docusign.com/esign/restapi/Envelopes/Envelopes/create/" target="_blank">Envelopes: create</a> APIを使って、対応したフォーム内容を元に署名リクエストを生成します。本ケースではテンプレートを利用しているため、<code>templateId</code> プロパティでエンベロープとして用いるテンプレートを指定し、 <code>templateRoles</code> ノード内でテンプレートのロールに対して受信者を割り当てます。 
         </p>
           
-        <p>                  
-          To match a recipient to a role we use the <code>roleName</code> property, which must exactly match the role name saved in the template. We do this for both our Applicant and Cosigner. To set default tab values for each role we use the <code>tabs</code> node just like we did when in the first loan example, except here we omit any positioning information since that is saved within the template.
-        </p>
-
-        <p>                  
-          To identify and populate a given tab we use the <code>tabLabel</code> and <code>value</code> properties, respectively. And once again to use embedded signing we must set the <code>clientUserId</code> property for each recipient (or template role in this case).
+        <p>
+          ひとつのロールに対して、ひとりの受信者を対応させるため、<code>roleName</code> プロパティを利用します。この値は、テンプレートで設定されたロール名に対して、完全に等しい値にする必要があります。本ケースでは複数受信者が設定されているため、それぞれ申請者と共同署名者をノード内で適切に指定します。それぞれのロールに対して、フィールドのデフォルト値を設定するためには、個人ローンサンプルで利用したように、<code>tabs</code> ノードを使います。ただし、テンプレート内でフィールドの位置は既に設定しているため、ノードの中では位置情報は省略します。
         </p>
 
         <p>
-          To create and send an envelope from a template send an http POST request to:
+          フィールドを特定し生成するため、<code>tabLabel</code> と <code>value</code> プロパティをそれぞれに利用します。埋め込み署名機能を再度使用するため、<code>clientUserId</code> プロパティをそれぞれの受信者(もしくは本ケースではテンプレートのロール)にセットします。
+        </p>
+
+        <p>
+          テンプレートからエンベロープを作成し、送信するために、HTTPのPOSTリクエストを下記に送信します:
         
 <pre>
 POST /v2/accounts/{accountId}/envelopes
@@ -282,7 +282,7 @@ POST /v2/accounts/{accountId}/envelopes
 
         <p style="padding:20px 0;">
           <span class="collapseTrigger collapsed" data-toggle="collapse" data-target="#collapseJSON" aria-expanded="false" aria-controls="collapseJSON">
-            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> Click to view example request JSON
+            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> サンプルリクエストのJSONを参照
           </span>
         </p>
         <div class="collapse" id="collapseJSON">
@@ -336,21 +336,21 @@ POST /v2/accounts/{accountId}/envelopes
         </div>
 
         <h5>
-          Step 2
+          ステップ 2
         </h5>
 
         <p>
-          If Embedded Signing was selected we next use the <a href="https://docs.docusign.com/esign/restapi/Envelopes/EnvelopeViews/createRecipient/" target="_blank">EnvelopeViews: createRecipient</a> API to generate a signing URL for the recipient. For this to work the <code>clientUserId</code> property must be set on the recipient when the envelope was sent during step 1.
+          埋め込み署名が選択された場合、受信者用の署名URLを生成するため、<a href="https://docs.docusign.com/esign/restapi/Envelopes/EnvelopeViews/createRecipient/" target="_blank">EnvelopeViews: createRecipient</a> APIを次に利用します。正しく動作させるために、ステップ1でエンベロープが送信された際の受信者を <code>clientUserId</code> プロパティにセットする必要があります。
         </p>
 
         <p>
-          Once the envelope is sent we save the envelope ID and Recipient information to our session then redirect to the <tt>/sign/embedded</tt> page. There we retrieve the envelope ID and recipient info from our session and create the recipient view by generating the URL and displaying in a full-width and full-height iframe.
+          エンベロープが送信された後、エンベロープIDと受信者情報がDocuSign側にセッション情報として保存されます。それから、<tt>/sign/embedded</tt> ページにリダイレクトされます。ここでは、セッション情報からエンベロープIDと受信者情報を取得し、生成されたURLからブラウザ内にフルサイズ(幅と高さ)のIFrameとして受信者用のビューが生成されます。
         </p>
 
         <br />
         
         <p>
-          To create the recipient view of the envelope we send an http POST request to:
+          エンベロープの受信者用ビューを生成するため、HTTPのPOSTリクエストを下記に送信します:
         
 <pre>
 POST /v2/accounts/{accountId}/envelopes/{envelopeId}/views/recipient
@@ -358,7 +358,7 @@ POST /v2/accounts/{accountId}/envelopes/{envelopeId}/views/recipient
         </p>
         <p style="padding:20px 0;">
           <span class="collapseTrigger collapsed" data-toggle="collapse" data-target="#collapseJSON2" aria-expanded="false" aria-controls="collapseJSON2">
-            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> Click to view example request JSON (the <code>ReturnUrl</code> information)
+            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> サンプルリクエストのJSONを参照 ( <code>ReturnUrl</code> 情報)
           </span>
         </p>
         <div class="collapse" id="collapseJSON2">

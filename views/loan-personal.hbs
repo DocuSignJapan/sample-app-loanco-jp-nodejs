@@ -9,7 +9,7 @@
     <div class="col-sm-5 col-sm-offset-1">
 
       <h2 class="text-center">
-        Personal Loan Application
+        個人ローン申し込み
       </h2>
 
       <hr />
@@ -17,128 +17,121 @@
       <form id="mainForm1" data-toggle="validator" method="POST" action="/loan/personal">
 
         <div class="form-group">
-          <label for="inputFirstName">First Name</label>
-          <input type="text" class="form-control" id="inputFirstName" name="inputFirstName" placeholder="" required value="Edgar">
+          <label for="inputLastName">姓</label>
+          <input type="text" class="form-control" id="inputLastName" name="inputLastName" placeholder="" required value="佐藤">
           <div class="help-block with-errors"></div>
         </div>
         <div class="form-group">
-          <label for="inputLastName">Last Name</label>
-          <input type="text" class="form-control" id="inputLastName" name="inputLastName" placeholder="" required value="Holmes">
+          <label for="inputFirstName">名</label>
+          <input type="text" class="form-control" id="inputFirstName" name="inputFirstName" placeholder="" required value="達也">
           <div class="help-block with-errors"></div>
         </div>
 
         <div class="form-group">
-          <label for="inputEmail">Email Address</label>
+          <label for="inputEmail">メールアドレス</label>
           <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="" required value="{{default_email}}">
           <div class="help-block with-errors"></div>
         </div>
 
-        <div class="form-group">
-          <label for="inputAddress1Name">Address Line 1</label>
-          <input type="text" class="form-control" id="inputAddress1" name="inputAddress1" placeholder="" required value="123 Disneyland Ave">
-          <div class="help-block with-errors"></div>
-        </div>
-        <div class="form-group">
-          <label for="inputAddress1Name">Address Line 2</label>
-          <input type="text" class="form-control" id="inputAddress2" name="inputAddress2" placeholder="" value="">
-        </div>
-
         <div class="row">
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="inputAddress1Name">郵便番号</label>
+              <input type="text" class="form-control" id="inputZip" name="inputZip" placeholder="" required value="107-0051" maxlength="8">
+              <div class="help-block with-errors"></div>
+            </div>            
+          </div>
+
           <div class="col-sm-4">
 
             <div class="form-group">
-              <label for="inputAddress1Name">City</label>
-              <input type="text" class="form-control" id="inputCity" name="inputCity" placeholder="" data-error="Please enter your city of residence" required value="Anaheim">
-              <div class="help-block with-errors"></div>
-            </div>
-            
-          </div>
-          <div class="col-sm-3">
-
-            <div class="form-group">
-              <label for="inputState">State</label>
+              <label for="inputState">都道府県</label>
               <select class="form-control" id="inputState" name="inputState" required>
-                <option value="AL">AL</option>
-                <option value="AK">AK</option>
-                <option value="AZ">AZ</option>
-                <option value="AR">AR</option>
-                <option value="CA" selected="">CA</option>
-                <option value="CO">CO</option>
-                <option value="CT">CT</option>
-                <option value="DE">DE</option>
-                <option value="DC">DC</option>
-                <option value="FL">FL</option>
-                <option value="GA">GA</option>
-                <option value="HI">HI</option>
-                <option value="ID">ID</option>
-                <option value="IL">IL</option>
-                <option value="IN">IN</option>
-                <option value="IA">IA</option>
-                <option value="KS">KS</option>
-                <option value="KY">KY</option>
-                <option value="LA">LA</option>
-                <option value="ME">ME</option>
-                <option value="MD">MD</option>
-                <option value="MA">MA</option>
-                <option value="MI">MI</option>
-                <option value="MN">MN</option>
-                <option value="MS">MS</option>
-                <option value="MO">MO</option>
-                <option value="MT">MT</option>
-                <option value="NE">NE</option>
-                <option value="NV">NV</option>
-                <option value="NH">NH</option>
-                <option value="NJ">NJ</option>
-                <option value="NM">NM</option>
-                <option value="NY">NY</option>
-                <option value="NC">NC</option>
-                <option value="ND">ND</option>
-                <option value="OH">OH</option>
-                <option value="OK">OK</option>
-                <option value="OR">OR</option>
-                <option value="PA">PA</option>
-                <option value="RI">RI</option>
-                <option value="SC">SC</option>
-                <option value="SD">SD</option>
-                <option value="TN">TN</option>
-                <option value="TX">TX</option>
-                <option value="UT">UT</option>
-                <option value="VT">VT</option>
-                <option value="VA">VA</option>
-                <option value="WA">WA</option>
-                <option value="WV">WV</option>
-                <option value="WI">WI</option>
-                <option value="WY">WY</option>
+                <option value="北海道">北海道</option>
+                <option value="青森県">青森県</option>
+                <option value="岩手県">岩手県</option>
+                <option value="宮城県">宮城県</option>
+                <option value="秋田県">秋田県</option>
+                <option value="山形県">山形県</option>
+                <option value="福島県">福島県</option>
+                <option value="茨城県">茨城県</option>
+                <option value="栃木県">栃木県</option>
+                <option value="群馬県">群馬県</option>
+                <option value="埼玉県">埼玉県</option>
+                <option value="千葉県">千葉県</option>
+                <option value="東京都"  selected="">東京都</option>
+                <option value="神奈川県">神奈川県</option>
+                <option value="新潟県">新潟県</option>
+                <option value="富山県">富山県</option>
+                <option value="石川県">石川県</option>
+                <option value="福井県">福井県</option>
+                <option value="山梨県">山梨県</option>
+                <option value="長野県">長野県</option>
+                <option value="岐阜県">岐阜県</option>
+                <option value="静岡県">静岡県</option>
+                <option value="愛知県">愛知県</option>
+                <option value="三重県">三重県</option>
+                <option value="滋賀県">滋賀県</option>
+                <option value="京都府">京都府</option>
+                <option value="大阪府">大阪府</option>
+                <option value="兵庫県">兵庫県</option>
+                <option value="奈良県">奈良県</option>
+                <option value="和歌山県">和歌山県</option>
+                <option value="鳥取県">鳥取県</option>
+                <option value="島根県">島根県</option>
+                <option value="岡山県">岡山県</option>
+                <option value="広島県">広島県</option>
+                <option value="山口県">山口県</option>
+                <option value="徳島県">徳島県</option>
+                <option value="香川県">香川県</option>
+                <option value="愛媛県">愛媛県</option>
+                <option value="高知県">高知県</option>
+                <option value="福岡県">福岡県</option>
+                <option value="佐賀県">佐賀県</option>
+                <option value="長崎県">長崎県</option>
+                <option value="熊本県">熊本県</option>
+                <option value="大分県">大分県</option>
+                <option value="宮崎県">宮崎県</option>
+                <option value="鹿児島県">鹿児島県</option>
+                <option value="沖縄県">沖縄県</option>
               </select>
               <div class="help-block with-errors"></div>
             </div>
-            
           </div>
-          <div class="col-sm-3">
 
-            <div class="form-group">
-              <label for="inputAddress1Name">Zip</label>
-              <input type="text" class="form-control" id="inputZip" name="inputZip" placeholder="" required value="90210">
-              <div class="help-block with-errors"></div>
-            </div>
-            
-          </div>
         </div>
 
         <div class="form-group">
-          <label for="inputPhone">Phone Number</label>
+          <label for="inputAddress1Name">市区町村</label>
+          <input type="text" class="form-control" id="inputCity" name="inputCity" placeholder="" data-error="市区町村を入力して下さい" required value="港区">
+          <div class="help-block with-errors"></div>
+        </div>      
+
+        <div class="form-group">
+          <label for="inputAddress1Name">住所1</label>
+          <input type="text" class="form-control" id="inputAddress1" name="inputAddress1" placeholder="" required value="元赤坂1-2-7">
+          <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group">
+          <label for="inputAddress1Name">住所2</label>
+          <input type="text" class="form-control" id="inputAddress2" name="inputAddress2" placeholder="" value="赤坂Kタワー4階">
+        </div>
+
+        <div class="form-group">
+          <label for="inputPhone">電話番号</label>
           <input type="tel" class="form-control" id="inputPhone" name="inputPhone" placeholder="">
           <div class="help-block with-errors"></div>
         </div>
         <p>
           <span class="collapseTrigger collapsed" data-toggle="collapse" data-target="#collapseAdvanced" aria-expanded="false" aria-controls="collapseAdvanced">
-            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> Advanced
+            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> 追加情報
           </span>
         </p>
         <div class="collapse" id="collapseAdvanced">
 
           <div class="form-group">
-            <label for="input">Signing Location</label>
+            <label for="input">署名方法</label>
             <select class="form-control" name="inputSigningLocation">
               {{#each signing_location_options}}
                 <option value="{{this}}" {{#ifCond this "==" ../config.signing_location}}selected{{/ifCond}}>
@@ -148,20 +141,20 @@
             </select>
 
             <span class="help-block">
-              Embed the signing experience, or send an email (remote) 
+              本画面内での署名 (enbedded) もしくはメールでの署名案内送信 (remote) 
             </span>
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group">
-            <label for="access_code">Access Code</label>
+            <label for="access_code">アクセスコード</label>
             <input type="text" class="form-control" id="access_code" name="inputAccessCode" placeholder="" value="{{config.access_code}}" />
             <span class="help-block">
-              Set an Access Code for this customer to enter before signing documents
+              ドキュメントへ署名する前にお客様に入力していただくアクセスコードを設定 (任意)
             </span>
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group">
-            <label for="authentication">Additional Authentication</label>
+            <label for="authentication">追加認証</label>
             <select class="form-control" name="inputAuthentication" disabled>
               {{#each authentication_options}}
                 <option value="{{this}}" {{#ifCond this "==" ../config.authentication}}selected{{/ifCond}}>
@@ -170,9 +163,9 @@
               {{/each}}
             </select>
             <span class="help-block">
-              Enable Phone Authentication to receive a verification phone call before signing documents (<a href="https://support.docusign.com/guides/ndse-user-guide-how-phone-authentication-works" target="_blank">Learn More</a>)
+              ドキュメントへ署名する前に電話による認証を有効化 (<a href="https://support.docusign.com/guides/ndse-user-guide-how-phone-authentication-works" target="_blank">詳細参照</a>)
               <br />
-              * This can be enabled when using your own account 
+              * 本設定はDocuSign側設定で有効化可能 
             </span>
           </div>
         </div>
@@ -183,7 +176,7 @@
         <div class="row">
           <div class="col-sm-12 text-center">
             <button type="submit" class="btn btn-primary has-spinner">
-              Apply for a Personal Loan
+              個人ローンの申し込み
               <span class="spinner"><i class="fa fa-spinner fa-spin icon-spin"></i></span>
             </button>
           </div>
@@ -197,14 +190,14 @@
     <div class="col-sm-6">
 
       <h2 class="text-center" style="opacity:0;">
-        Personal Loan Application
+        個人ローン申し込み
       </h2>
 
       <hr />
 
       <p class="text-right2">
         <span class="collapseTrigger collapsed" data-toggle="collapse" data-target="#collapseHow" aria-expanded="false" aria-controls="collapseHow">
-          <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> See behind the scenes
+          <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> 本ケースの背景
         </span>
       </p>
       <div class="collapse" id="collapseHow">
@@ -213,37 +206,37 @@
 
 
         <h4>
-          This Sample Features:
+          本サンプルの機能:
         </h4>
         <ul>
-          <li>Single Signer</li>
-          <li>DOCX Import</li>
-          <li>Auto-Place (Anchor) Tab Positioning</li>
-          <li>Embedded Signing (Recipient View)</li>
-          <li>Access Code Authentication</li>
+          <li>1名の署名者</li>
+          <li>Word文書(.DOCX)のインポート</li>
+          <li>フィールド項目自動配置(アンカー)</li>
+          <li>埋め込み署名(受信者ビュー)</li>
+          <li>アクセスコード認証</li>
         </ul>
 
         <br />
 
 
         <h4>
-          Code Flow: 
+          コードの流れ: 
         </h4>
 
         <h5>
-          Step 1
+          ステップ 1
         </h5>
 
         <p>
-          When the form is submitted we use the <a href="https://docs.docusign.com/esign/restapi/Envelopes/Envelopes/create/" target="_blank">Envelopes: create</a> API to send the signature request with the corresponding form information. The envelope we construct contains a <code>document</code>, a recipient of type <code>signer</code>, and <code>tabs</code> which contain the form fields information. If embedded signing is selected we must also set the <code>clientUserId</code> property on the recipient.
+          入力されたフォーム情報が送信された際に、<a href="https://docs.docusign.com/esign/restapi/Envelopes/Envelopes/create/" target="_blank">Envelopes: create</a> APIを使って、対応したフォーム内容を元に署名リクエストを生成します。作成されるエンベロープは、<code>document</code> 、<code>signer</code> の受信者タイプ、それからフォームに入力された情報を含む <code>tabs</code> で構成されます。埋め込み署名が選択されている場合、受信者として <code>clientUserId</code> の設定が必要です。
         </p> 
         
-        <p>        
-          Multi-factor authentication can be added using an <code>accessCode</code> or additional Authentication (Phone or ID Check). Note that this example uses the <a href="https://www.docusign.com/developer-center/explore/features/stick-etabs#tab-positioning" target="_blank">Auto-Place</a> feature for placing tabs on the document.
+        <p>
+          <code>accessCode</code> もしくは追加の認証(電話やIDチェック)を使って、複数要素認証をすることも可能です。また、本サンプルでは、文書上にフィールドを適切な場所に自動配置するため、<a href="https://www.docusign.com/developer-center/explore/features/stick-etabs#tab-positioning" target="_blank">Auto-Place</a> 機能を利用しています。
         </p>
 
         <p>
-          To create and send an envelope send an http POST request to:
+          テンプレートからエンベロープを作成し、送信するために、HTTPのPOSTリクエストを下記に送信します:
 
 <pre>
 POST /v2/accounts/{accountId}/envelopes
@@ -252,7 +245,7 @@ POST /v2/accounts/{accountId}/envelopes
         
         <p style="padding:20px 0;">
           <span class="collapseTrigger collapsed" data-toggle="collapse" data-target="#collapseJSON" aria-expanded="false" aria-controls="collapseJSON">
-            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> Click to view example request JSON
+            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> サンプルリクエストのJSONを参照
           </span>
         </p>
         <div class="collapse" id="collapseJSON">
@@ -405,19 +398,19 @@ POST /v2/accounts/{accountId}/envelopes
         </div>
 
         <h5>
-          Step 2
+          ステップ 2
         </h5>
 
         <p>
-          If Embedded Signing was selected we next use the <a href="https://docs.docusign.com/esign/restapi/Envelopes/EnvelopeViews/createRecipient/" target="_blank">EnvelopeViews: createRecipient</a> API to generate a signing URL for the recipient. For this to work the <code>clientUserId</code> property must be set on the recipient when the envelope was sent during step 1.
+          埋め込み署名が選択された場合、受信者用の署名URLを生成するため、<a href="https://docs.docusign.com/esign/restapi/Envelopes/EnvelopeViews/createRecipient/" target="_blank">EnvelopeViews: createRecipient</a> APIを次に利用します。正しく動作させるために、ステップ1でエンベロープが送信された際の受信者を <code>clientUserId</code> プロパティにセットする必要があります。
         </p>
 
         <p>
-          Once the envelope is sent we save the envelope ID and Recipient information to our session then redirect to the <tt>/sign/embedded</tt> page. There we retrieve the envelope ID and recipient info from our session and create the recipient view by generating the URL and displaying in a full-width and full-height iframe.
+          エンベロープが送信された後、エンベロープIDと受信者情報がDocuSign側にセッション情報として保存されます。それから、<tt>/sign/embedded</tt> ページにリダイレクトされます。ここでは、セッション情報からエンベロープIDと受信者情報を取得し、生成されたURLからブラウザ内にフルサイズ(幅と高さ)のIFrameとして受信者用のビューが生成されます。
         </p>
         
         <p>
-          To create the recipient view of the envelope we send an http POST request to:
+          エンベロープの受信者用ビューを生成するため、HTTPのPOSTリクエストを下記に送信します:
         
 <pre>
 POST /v2/accounts/{accountId}/envelopes/{envelopeId}/views/recipient
@@ -425,7 +418,7 @@ POST /v2/accounts/{accountId}/envelopes/{envelopeId}/views/recipient
         </p>
         <p style="padding:20px 0;">
           <span class="collapseTrigger collapsed" data-toggle="collapse" data-target="#collapseJSON2" aria-expanded="false" aria-controls="collapseJSON2">
-            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> Click to view example request JSON
+            <i class="fa fa-plus-square-o show-on-collapsed" aria-hidden="true"></i><i class="fa fa-minus-square-o show-on-open" aria-hidden="  true"></i> サンプルリクエストのJSONを参照
           </span>
         </p>
         <div class="collapse" id="collapseJSON2">

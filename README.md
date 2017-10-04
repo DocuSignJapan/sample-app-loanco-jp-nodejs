@@ -41,6 +41,7 @@ We use environment variables to setup our configuration. You can store these var
     GOOGLE_ANALYTICS=          // UA-XYZ-1
     DEFAULT_EMAIL=             // for autofilling email input fields
     FORCE_HTTPS=               // force https by setting to true
+    USE_LOCAL_CERTS=           // Start HTTPS listening with ./sslcerts by true. if false, HTTP server only
 
 
 ##### Templates 
