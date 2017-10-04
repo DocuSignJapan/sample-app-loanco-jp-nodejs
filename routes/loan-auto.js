@@ -23,7 +23,7 @@ router.post('/loan/auto', function(req, res, next) {
 	var envDef = new docusign.EnvelopeDefinition();
 	envDef.setEmailSubject('Auto Loan Application');
 	envDef.setEmailBlurb('Please sign the Loan application to start the application process.');
-	envDef.setTemplateId(app.config.templatesByKey.cosigner_on_auto_loan.id);
+	envDef.setTemplateId(app.config.templatesByKey.cosigner_on_auto_loan.json.id);
 
 	// create a template role with a valid templateId and roleName and assign signer info
 	var tRoleApplicant = new docusign.TemplateRole();
