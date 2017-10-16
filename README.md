@@ -1,15 +1,15 @@
 
 ### DocuSign LoanCo Sample App 
 
-LoanCo is a sample loan app that shows some common ways an application might interact with the DocuSign eSignature API. Various switches (authentication, embedded signing, templates) can be changed to show additional platform and API features and how easy they are to add to your own solution. LoanCo offers three (3) different loan workflows that demonstrate various features and workflows available through the platform.
+LoanCoは、アプリケーションがDocuSign eSignature APIとやりとりする一般的な方法を示すサンプルローンアプリです。 さまざまなスイッチ（認証、組み込み署名、テンプレート）を変更して、追加のプラットフォームおよびAPI機能を表示し、独自のソリューションに簡単に追加できます。LoanCoは、3つの異なるローンワークフローを提供し、プラットフォームを通じて利用可能なさまざまな機能とワークフローを示しています。
 
-#### Requirements
+#### 要件
 
 - [Free Developer Sandbox](https://secure.docusign.com/signup/develop)
 - [Node.js](https://nodejs.org/en/)
 
 
-#### Installation 
+#### インストール 
 
     git clone <repo> 
     cd <repo directory>
@@ -17,17 +17,16 @@ LoanCo is a sample loan app that shows some common ways an application might int
     npm start
 
 
-#### Running 
+#### 実行 
 
     npm start
     
 
-#### Configuration 
+#### 設定 
 
-> DocuSign has multiple ways of authenticating your app. This example (storing username/password/integrator-key locally and sending in a custom `X-DocuSign-Authentication` header) is known as [legacy auth](https://docs.docusign.com/esign/guide/authentication/legacy_auth.html). You can also authenticate using the [OAuth2](https://docs.docusign.com/esign/guide/authentication/auth_server.html) Authorization Code Grant and Implicit Grant methods.
+> DocuSignには、アプリを認証する複数の方法があります。この例（ユーザー名 / パスワード / インテグレーターキーをローカルに保存し、カスタム`X-DocuSign-Authentication` ヘッダーに設定して送信する）は、[レガシー認証](https://docs.docusign.com/esign/guide/authentication/legacy_auth.html)と呼ばれています。また、[OAuth2] (https://docs.docusign.com/esign/guide/authentication/auth_server.html) Authorization Code GrantメソッドとImplicit Grantメソッドを使用して認証することもできます。
 
-
-We use environment variables to setup our configuration. You can store these variables in a `.env` file at the root (`dotenv` package is used) 
+環境変数を使用して構成を設定します。これらの変数は、ルートの `.env`ファイルに格納することができます（` dotenv`パッケージが使用されます） You can store these variables in a `.env` file at the root (`dotenv` package is used) 
 
     DOCUSIGN_ENVIRONMENT=demo  // use "www" for production  
     DOCUSIGN_USERNAME=         // account email address  
@@ -44,30 +43,30 @@ We use environment variables to setup our configuration. You can store these var
     USE_LOCAL_CERTS=           // Start HTTPS listening with ./sslcerts by true. if false, HTTP server only
 
 
-##### Templates 
+##### テンプレート 
 
-Templates are not currently automatically created. To create the Auto Loan template, follow these steps: 
+テンプレートは現在自動的には作成されません。自動車ローンテンプレートを作成するには、次の手順を実行します:
 
-1. Visit your Templates tab: https://appdemo.docusign.com/templates  
-1. Click "New" and "Upload Template" 
-1. Upload the file "pdfs/template-auto-loan.json" and click on the newly-created Template 
-1. Copy the Template ID by clicking the "(I)" or information icon next to the Template title 
-1. Paste the Template ID into the "pdfs/template-auto-loan.json" file, replacing the existing templateId value 
-1. Restart the sample using `npm start`  
+1. サンドボックス環境にログインし、テンプレートタブを開く: https://appdemo.docusign.com/templates  
+1. "新規ボタン"を押し、"テンプレートのアップロード"をクリック 
+1. "pdfs/template-auto-loan.json"ファイルをアップロードし、作成されたテンプレートをクリック
+1. テンプレート名の横に表示されている"(i)"アイコン("Information"アイコン)をクリックし、"コピー"リンクをクリックして、テンプレートIDを取得 
+1. エディタで"pdfs/template-auto-loan.json"ファイルを開き、その中に設定されているテンプレートIDを上記で取得したテンプレートIDで上書き 
+1. `npm start`コマンドを実行し、サンプルアプリを再起動
 
-> Todo: When initially run, the app will attempt to create a Template for the Auto Loan Application. This template is defined at `pdfs/template-auto-loan.json`. 
-
-
-#### Deploy to Heroku 
-
-A few requirements:
-
-- Make sure you have the heroku toolbelt/CLI installed locally  
-- Fill out the fields in the `.env` file after cloning 
-- Install heroku-config to send your local env variables in .env to heroku (`heroku plugins:install heroku-config`)  
+> Todo: 初回起動時、本アプリは自動車ローン向けテンプレートを作成しようとします。このテンプレートは、`pdfs/template-auto-loan.json`で定義済みです。 
 
 
-Code:  
+#### Herokuへのデプロイ
+
+いくつかの前提条件:
+
+- ローカル環境にHeroku Toolbelt/CLIがインストール済みである  
+- レポジトリからローカルにクローン後、`.env`ファイルに環境変数を定義済み 
+- heroku-condigコマンドをインストールし、Herokuにローカルで定義している環境変数と値を送信 (`heroku plugins:install heroku-config`)  
+
+
+コマンド:  
 
     git clone <repo>
     cd <repo directory>
@@ -91,15 +90,14 @@ Code:
     
 
 
-#### Errors you may encounter  
+#### 発生しうるエラー  
 
     { 
         errorCode: 'ACCOUNT_LACKS_PERMISSIONS',
         message: 'This Account lacks sufficient permissions. Document Visibility has been specified.  This account does not have document visibility turned on.' 
     }
 
-Change this setting: http://imgur.com/j4VD6nd on https://admindemo.docusign.com/sending-settings
-
+https://admindemo.docusign.com/sending-settings の設定にそって、http://imgur.com/j4VD6nd の設定を変更
 
 
     {
@@ -107,16 +105,15 @@ Change this setting: http://imgur.com/j4VD6nd on https://admindemo.docusign.com/
         message: 'A requested plan item is not enabled for this account. Plan item: AllowRequireWetSign' 
     }
 
-Contact Support (support@docusign.com) and request "Allow Require Wet Sign" to be enable on your account, and then change this setting: http://imgur.com/a/mJ5WC on https://admindemo.docusign.com/signing-settings under "Recipients" 
+サポート(support@docusign.com)に連絡し、 お使いのアカウントで"Allow Require Wet Sign"機能を有効化するよう依頼して下さい。それから、https://admindemo.docusign.com/signing-settings"のRecipients"セクション以下にそって、http://imgur.com/a/mJ5WC の設定を変更して下さい。
 
 
-
-#### API Tools and Links
+#### APIツールとリンク
 
 __Developer Center__  
 https://www.docusign.com/devcenter
 
-__API Recipes (code walkthroughs)__  
+__API レシピ (code walkthroughs)__  
 https://www.docusign.com/developer-center/recipes
 
 __API Documentation__  
@@ -127,7 +124,7 @@ https://apiexplorer.docusign.com/
 
 
 
-#### License 
+#### ライセンス 
 
 The DocuSign LoanCo Sample App is licensed under the MIT [License](LICENSE).
 
