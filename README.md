@@ -1,5 +1,5 @@
 
-### DocuSign LoanCo Sample App 
+### DocuSign LoanCo サンプルアプリケーション
 
 LoanCoは、アプリケーションがDocuSign eSignature APIとやりとりする一般的な方法を示すサンプルローンアプリです。 さまざまなスイッチ（認証、組み込み署名、テンプレート）を変更して、追加のプラットフォームおよびAPI機能を表示し、独自のソリューションに簡単に追加できます。LoanCoは、3つの異なるローンワークフローを提供し、プラットフォームを通じて利用可能なさまざまな機能とワークフローを示しています。
 
@@ -26,7 +26,7 @@ LoanCoは、アプリケーションがDocuSign eSignature APIとやりとりす
 
 > DocuSignには、アプリを認証する複数の方法があります。この例（ユーザー名 / パスワード / インテグレーターキーをローカルに保存し、カスタム`X-DocuSign-Authentication` ヘッダーに設定して送信する）は、[レガシー認証](https://docs.docusign.com/esign/guide/authentication/legacy_auth.html)と呼ばれています。また、[OAuth2] (https://docs.docusign.com/esign/guide/authentication/auth_server.html) Authorization Code GrantメソッドとImplicit Grantメソッドを使用して認証することもできます。
 
-環境変数を使用して構成を設定します。これらの変数は、ルートの `.env`ファイルに格納することができます（` dotenv`パッケージが使用されます） You can store these variables in a `.env` file at the root (`dotenv` package is used) 
+環境変数を使用して構成を設定します。これらの変数は、ルートの `.env`ファイルに格納することができます(`dotenv`パッケージが使用されます) 
 
     DOCUSIGN_ENVIRONMENT=demo  // use "www" for production  
     DOCUSIGN_USERNAME=         // account email address  
@@ -106,6 +106,7 @@ https://admindemo.docusign.com/sending-settings の設定にそって、http://i
     }
 
 サポート(support@docusign.com)に連絡し、 お使いのアカウントで"Allow Require Wet Sign"機能を有効化するよう依頼して下さい。それから、https://admindemo.docusign.com/signing-settings"のRecipients"セクション以下にそって、http://imgur.com/a/mJ5WC の設定を変更して下さい。
+
 
 
 #### APIツールとリンク
