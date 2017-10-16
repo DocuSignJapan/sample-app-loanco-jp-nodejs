@@ -105,7 +105,7 @@ https://admindemo.docusign.com/sending-settings の設定にそって、http://i
         message: 'A requested plan item is not enabled for this account. Plan item: AllowRequireWetSign' 
     }
 
-サポート(support@docusign.com)に連絡し、 お使いのアカウントで"Allow Require Wet Sign"機能を有効化するよう依頼して下さい。それから、https://admindemo.docusign.com/signing-settings"のRecipients"セクション以下にそって、http://imgur.com/a/mJ5WC の設定を変更して下さい。
+サポート(support@docusign.com)に連絡し、 お使いのアカウントで"Allow Require Wet Sign"機能を有効化するよう依頼して下さい。それから、https://admindemo.docusign.com/signing-settings "のRecipients"セクション以下にそって、http://imgur.com/a/mJ5WC の設定を変更して下さい。
 
 
 
