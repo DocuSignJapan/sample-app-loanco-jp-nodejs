@@ -9,13 +9,15 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var _ = require('lodash');
 var moment = require('moment');
+var passport = require('passport');
+var helmet = require('helmet');
 
 // In case of uncaught exception, print the full-stack
 process.on('uncaughtException', function(err) {
   console.error((err && err.stack) ? err.stack : err);
 });
 
-var app = express();
+var app = express().use(passport.initialize()).use(helmet());
 global.app = app;
 
 app.config = require('./config');
@@ -103,7 +105,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.models = require('./models');
 
-var session = require('express-session')
+var session = require('express-session');
 app.use(session({
   secret: 'kjh2398sh2nlsd',
   resave: false,
@@ -113,15 +115,22 @@ app.use(session({
 
 // set up a route to redirect http to https (in case dns not setup)
 app.get('*',function(req,res,next){
-  console.log('Redirecting to https');
+  console.log('Incoming request...');
+  console.log('hostname:', req.hostname);
+  console.log('origin:', req.origin);
+  console.log('url:', req.url);
+  console.log('headers:', JSON.stringify(req.headers));
+  console.log('body:', req.body);
   if(app.config.force_https && !req.secure){
-    var domain = req.host;
+    console.log('Redirecting to https');
+    var domain = req.hostname;
     return res.redirect('https://' + domain + req.url);
   }
   next();
-})
+});
 
 app.use('/', function(req, res, next){
+  console.log('req.session start:', JSON.stringify(req.session));
   // setup session id if not already set
   if(!req.session.id){
     req.session.id = require('guid').raw();
@@ -138,6 +147,7 @@ app.use('/', function(req, res, next){
     req.session.config[key] = (key in req.session.config) ? req.session.config[key] : app.config[key];
   });
 
+  console.log('req.session end:', JSON.stringify(req.session));
   next();
 });
 
@@ -177,70 +187,33 @@ app.use(function(err, req, res, next) {
 
 
 // Create the HTTP and HTTPS servers
-app.set('port', (process.env.PORT || 3801));
 var server = require('http').Server(app);
-
 var httpsServer;
-if (app.config.use_local_certs) {
-  try {
-    var privateKey = fs.readFileSync('sslcerts/server.key');
-    var certificate = fs.readFileSync('sslcerts/server.crt');
+try {
+  var privateKey = fs.readFileSync('sslcerts/server.key');
+  var certificate = fs.readFileSync('sslcerts/server.crt');
 
-    var credentials = {
-      key: privateKey,
-      cert: certificate
-    };
+  var credentials = configWithCryptoOptions({
+    key: privateKey,
+    cert: certificate
+  });
 
-    httpsServer = require('https').Server(credentials, app);
-  }catch(err){
-    console.error('HTTPS server failed to start. Missing key or crt');
-  }
+  httpsServer = require('https').Server(credentials, app);
+}catch(err){
+  console.error('HTTPS server failed to start. Missing key or crt');
 }
 
 app.setup = require('./setup');
 
-// Start listening after signing in to DocuSign and retrieving our AccountID
-app.config.loginToDocuSign(function(err){
-  if(err){
-    console.error('loginToDocuSign failure');
-    return console.error(err);
-  }
 
-  // Check for template existance
-  app.setup.Templates(function(err){
-    if(err){
-      console.log('Templates Error');
-      console.error(err);
-      // server.listen(port);
-      return;
-      // return console.error(err);
-    }
+////////////////////////////////////////////////
+// Start the server
+////////////////////////////////////////////////
+server.listen(3801, function() {
+  console.log('HTTP being served on 3801');});
 
-    // app.setup.Brands(function(err){
-    //   if(err){
-    //     return console.error(err);
-    //   }
-
-      // server.listen(port);
-
-
-      ////////////////////////////////////////////////
-      // Start the server
-      ////////////////////////////////////////////////
-      server.listen(app.get('port'), function() {
-        console.log('HTTP being served on ' + app.get('port'));
-      });
-
-    if (app.config.use_local_certs) {
-      httpsServer && httpsServer.listen(8443, function() {
-        console.log('HTTPS being served on 8443');
-      });
-    }
-
-    // });
-
-  });
-});
+httpsServer && httpsServer.listen(4443, function() {
+  console.log('HTTPS being served on 4443');});
 server.on('error', onError);
 
 function onError(error) {
@@ -265,6 +238,49 @@ function onError(error) {
     default:
       throw error;
   }
+}
+
+function configWithCryptoOptions(serverConfig) {
+  serverConfig.ciphers = [
+    'ECDHE-RSA-AES128-GCM-SHA256',
+    'ECDHE-ECDSA-AES128-GCM-SHA256',
+    'ECDHE-RSA-AES256-GCM-SHA384',
+    'ECDHE-ECDSA-AES256-GCM-SHA384',
+    'DHE-RSA-AES128-GCM-SHA256',
+    'ECDHE-RSA-AES256-SHA384',
+    'DHE-RSA-AES256-SHA384',
+    'ECDHE-RSA-AES256-SHA256',
+    'DHE-RSA-AES256-SHA256',
+    'ECDHE-RSA-AES128-SHA256',
+    'DHE-RSA-AES128-SHA256',
+    'HIGH',
+    '!aNULL',
+    '!eNULL',
+    '!EXPORT',
+    '!DES',
+    '!RC4',
+    '!MD5',
+    '!PSK',
+    '!SRP',
+    '!CAMELLIA',
+    '!ECDH',
+    '!DSS',
+    '!RSA-3DES-EDE-CBC-SHA',
+    '!RSA-AES256-GCM-SHA384',
+    '!RSA-AES256-CBC-SHA256',
+    '!RSA-AES256-CBC-SHA',
+    '!RSA-AES128-GCM-SHA256',
+    '!RSA-AES128-CBC-SHA256',
+    '!RSA-AES128-CBC-SHA',
+    '!ECDHE-RSA-3DES-EDE-CBC-SHA',
+  ].join(':');
+
+  serverConfig.honorCipherOrder = true;
+
+  const constants = require('constants');
+  serverConfig.secureOptions = constants.SSL_OP_NO_TLSv1_1 | constants.SSL_OP_NO_TLSv1 | constants.SSL_OP_NO_SSLv3 | constants.SSL_OP_NO_SSLv2;
+
+  return serverConfig;
 }
 
 module.exports = app;

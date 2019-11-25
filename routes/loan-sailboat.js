@@ -8,15 +8,22 @@ var GoogleMapsAPI = require('googlemaps');
 var docusign = require('docusign-esign'),
   async = require('async'),
   fs = require('fs'),
-  path = require('path');
+  path = require('path'),
+  dsAuthCodeGrant = require('../DSAuthCodeGrant');
 
 router.get('/loan/sailboat', function(req, res, next) {
-	res.render('loan-sailboat', {
-		signing_location_options: app.helpers.signing_location_options,
-		authentication_options: app.helpers.authentication_options
-	});
+    let tokenOK = dsAuthCodeGrant.prototype.checkToken(3);
+    if (! tokenOK) {
+		req.session.loan = 'sailboat';
+		dsAuthCodeGrant.prototype.login(req, res, next)    
+	}
+	else {	
+		res.render('loan-sailboat', {
+			signing_location_options: app.helpers.signing_location_options,
+			authentication_options: app.helpers.authentication_options
+		});
+	}
 });
-
 router.post('/loan/sailboat', function(req, res, next) {
 
 	var body = req.body;
@@ -60,6 +67,7 @@ router.post('/loan/sailboat', function(req, res, next) {
 			console.error(err);
 		} else {
 			var gmapBase64Doc = new Buffer(imageBody).toString('base64');
+			console.log ('===============Google Maps Image - ' + gmapBase64Doc + "=====================Google Maps Image");
 		}
 
 		var file1Base64 = app.helpers.getLocalDocument('pdfs/LoanSailboat.docx');
@@ -67,29 +75,29 @@ router.post('/loan/sailboat', function(req, res, next) {
 
 		// create an envelope that will store the document(s), field(s), and recipient(s)
 		var envDef = new docusign.EnvelopeDefinition();
-		envDef.setEmailSubject('Sailboat Loan Application');
-		envDef.setEmailBlurb('Please sign the Loan application to start the application process.');
+		envDef.emailSubject = 'Sailboat Loan Application';
+		envDef.emailBlurb = 'Please sign the Loan application to start the application process.';
 
 		// add documents to the envelope
 		var doc1 = new docusign.Document();
-		doc1.setDocumentBase64(file1Base64);
-		doc1.setName('Application'); // can be different from actual file name
-		doc1.setFileExtension('docx');
-		doc1.setDocumentId('1'); // hardcode so we can easily refer to this document later
+		doc1.documentBase64 = file1Base64;
+		doc1.name = 'Application'; // can be different from actual file name
+		doc1.fileExtension ='docx';
+		doc1.documentId = '1'; // hardcode so we can easily refer to this document later
 
 		if(!mapErr){
 			var doc2 = new docusign.Document();
-			doc2.setDocumentBase64(gmapBase64Doc);
-			doc2.setName('Map'); // can be different from actual file name
-			doc2.setFileExtension('png');
-			doc2.setDocumentId('2'); // hardcode so we can easily refer to this document later
+			doc2.documentBase64 = gmapBase64Doc;
+			doc2.name = 'Map'; // can be different from actual file name
+			doc2.fileExtension = 'png';
+			doc2.documentId = '2'; // hardcode so we can easily refer to this document later
 		}
 
 		var doc3 = new docusign.Document();
-		doc3.setDocumentBase64(file2Base64);
-		doc3.setName('Appraiser'); // can be different from actual file name
-		doc3.setFileExtension('docx');
-		doc3.setDocumentId('3'); // hardcode so we can easily refer to this document later
+		doc3.documentBase64 = file2Base64;
+		doc3.name = 'Appraiser'; // can be different from actual file name
+		doc3.fileExtension = 'docx';
+		doc3.documentId = '3'; // hardcode so we can easily refer to this document later
 
 		var docs = [];
 		docs.push(doc1);
@@ -97,40 +105,40 @@ router.post('/loan/sailboat', function(req, res, next) {
 			docs.push(doc2);
 		}
 		docs.push(doc3);
-		envDef.setDocuments(docs);
+		envDef.documents = docs;
 
-		envDef.setEnforceSignerVisibility('true');
+		envDef.enforceSignerVisibility = 'true';
 
 		// Recipients
 		var signer = new docusign.Signer();
-		signer.setRoutingOrder(1);
-		signer.setEmail(body.inputEmail);
-		signer.setName(body.inputFirstName + ' ' + body.inputLastName);
-		signer.setRecipientId('1');
-		signer.setExcludedDocuments(['3']);
+		signer.routingOrder = 1;
+		signer.email = body.inputEmail;
+		signer.name = body.inputFirstName + ' ' + body.inputLastName;
+		signer.recipientId = '1';
+		signer.excludedDocuments = ['3'];
 
 		if(body.inputSigningLocation == 'embedded'){
-			signer.setClientUserId('1001');
+			signer.clientUserId = '1001';
 		}
 		if(body.inputAccessCode && body.inputAccessCode.length){
-			signer.setAccessCode(body.inputAccessCode);
+			signer.accessCode = body.inputAccessCode;
 		}
 		if(body.inputAuthentication == 'phone'){
 			app.helpers.addPhoneAuthToRecipient(signer, body.inputPhone);
 		}
 
 		var appraiserSigner = new docusign.Signer();
-		appraiserSigner.setRoutingOrder(2);
-		appraiserSigner.setEmail(body.inputAppraiserEmail);
-		appraiserSigner.setName(body.inputAppraiserFirstName + ' ' + body.inputAppraiserLastName);
-		appraiserSigner.setRecipientId('2');
+		appraiserSigner.routingOrder = 2;
+		appraiserSigner.email = body.inputAppraiserEmail;
+		appraiserSigner.name = body.inputAppraiserFirstName + ' ' + body.inputAppraiserLastName;
+		appraiserSigner.recipientId = '2';
 		// appraiserSigner.setExcludedDocuments([]); // this is NOT the way to make all documents visible, instead we need to add a Tab to each document (if it already has a tag, otherwise un-tagged documents are always visible) 
 
 		if(body.inputSigningLocationAppraiser == 'embedded'){
-			appraiserSigner.setClientUserId('2002');
+			appraiserSigner.clientUserId = '2002';
 		}
 		if(body.inputAccessCodeAppraiser && body.inputAccessCodeAppraiser.length){
-			appraiserSigner.setAccessCode(body.inputAccessCodeAppraiser);
+			appraiserSigner.accessCode = body.inputAccessCodeAppraiser;
 		}
 		if(body.inputAuthenticationAppraiser == 'phone'){
 			app.helpers.addPhoneAuthToRecipient(appraiserSigner, body.inputAppraiserPhone);
@@ -199,17 +207,17 @@ router.post('/loan/sailboat', function(req, res, next) {
 
 
 		var tabs = new docusign.Tabs();
-		tabs.setTextTabs(tabList.text);
-		tabs.setNumberTabs(tabList.number);
-		tabs.setFormulaTabs(tabList.formula);
-		tabs.setEmailTabs(tabList.email);
-		tabs.setFullNameTabs(tabList.fullName);
-		tabs.setSignerAttachmentTabs(tabList.attachment);
-		tabs.setSignHereTabs(tabList.signHere);
-		tabs.setInitialHereTabs(tabList.initialHere);
-		tabs.setDateSignedTabs(tabList.dateSigned);
+		tabs.textTabs = tabList.text;
+		tabs.numberTabs = tabList.number;
+		tabs.formulaTabs = tabList.formula;
+		tabs.emailTabs = tabList.email;
+		tabs.fullNameTabs = tabList.fullName;
+		tabs.signerAttachmentTabs = tabList.attachment;
+		tabs.signHereTabs = tabList.signHere;
+		tabs.initialHereTabs = tabList.initialHere;
+		tabs.dateSignedTabs = tabList.dateSigned;
 
-		signer.setTabs(tabs);
+		signer.tabs = tabs;
 
 
 		// can have multiple tabs, so need to add to envelope as a single element list
@@ -244,7 +252,7 @@ router.post('/loan/sailboat', function(req, res, next) {
 		}));
 
 		// Appraisal amount
-		appraiserTabList.text.push(app.helpers.makeTab('Number', {
+		appraiserTabList.text.push(app.helpers.makeTab('Text', {
 			recipientId: '2',
 			anchorString: 'Appraiser Estimate',
 			anchorXOffset: '0',
@@ -273,35 +281,40 @@ router.post('/loan/sailboat', function(req, res, next) {
 
 
 		var appraiserTabs = new docusign.Tabs();
-		appraiserTabs.setTextTabs(appraiserTabList.text);
-		appraiserTabs.setNumberTabs(appraiserTabList.number);
-		appraiserTabs.setFormulaTabs(appraiserTabList.formula);
-		appraiserTabs.setEmailTabs(appraiserTabList.email);
-		appraiserTabs.setFullNameTabs(appraiserTabList.fullName);
-		appraiserTabs.setSignerAttachmentTabs(appraiserTabList.attachment);
-		appraiserTabs.setSignHereTabs(appraiserTabList.signHere);
-		appraiserTabs.setInitialHereTabs(appraiserTabList.initialHere);
-		appraiserTabs.setDateSignedTabs(appraiserTabList.dateSigned);
+		appraiserTabs.textTabs = appraiserTabList.text;
+		appraiserTabs.numberTabs = appraiserTabList.number;
+		appraiserTabs.formulaTabs = appraiserTabList.formula;
+		appraiserTabs.emailTabs = appraiserTabList.email;
+		appraiserTabs.fullNameTabs = appraiserTabList.fullName;
+		appraiserTabs.signerAttachmentTabs = appraiserTabList.attachment;
+		appraiserTabs.signHereTabs = appraiserTabList.signHere;
+		appraiserTabs.initialHereTabs = appraiserTabList.initialHere;
+		appraiserTabs.dateSignedTabs = appraiserTabList.dateSigned;
 
-		appraiserSigner.setTabs(appraiserTabs);      
+		appraiserSigner.tabs = appraiserTabs;      
 
 
 		// add recipients
-		envDef.setRecipients(new docusign.Recipients());
-		envDef.getRecipients().setSigners([]);
-		envDef.getRecipients().getSigners().push(signer);
-		envDef.getRecipients().getSigners().push(appraiserSigner);
+		envDef.recipients = new docusign.Recipients();
+		envDef.recipients.signers = [];
+		envDef.recipients.signers.push(signer);
+		envDef.recipients.signers.push(appraiserSigner);
 
 		// send the envelope by setting |status| to "sent". To save as a draft set to "created"
 		// - note that the envelope will only be 'sent' when it reaches the DocuSign server with the 'sent' status (not in the following call)
-		envDef.setStatus('sent');
+		envDef.status = 'sent';
 
 		if(app.config.brand_id && app.config.brand_id.length){
-			envDef.setBrandId(app.config.brand_id);
+			envDef.brandId = app.config.brand_id;
 		}
 
+		// set the required authentication information
+		let dsApiClient = new docusign.ApiClient();
+		dsApiClient.setBasePath(req.session.basePath);
+		dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsAuthCodeGrant.prototype.getAccessToken());
+
 		// instantiate a new EnvelopesApi object
-		var envelopesApi = new docusign.EnvelopesApi();
+		var envelopesApi = new docusign.EnvelopesApi(dsApiClient);
 
 		app.helpers.removeEmptyAndNulls(envDef);
 
@@ -316,10 +329,9 @@ router.post('/loan/sailboat', function(req, res, next) {
 		// console.log(JSON.stringify(mockEnv,null,2));
 
 		// call the createEnvelope() API
-		envelopesApi.createEnvelope(app.config.auth.AccountId, envDef, null, function (error, envelopeSummary, response) {
+		envelopesApi.createEnvelope(req.session.accountId, {envelopeDefinition: envDef}, function (error, envelopeSummary, response) {
 			if (error) {
-				console.error('Error: ' + error);
-				console.error(envelopeSummary);
+				console.error('Error: ' + response.text);
 				res.send('Error creating envelope, please try again');
 				return;
 			}
@@ -339,14 +351,14 @@ router.post('/loan/sailboat', function(req, res, next) {
 				req.session.remainingSigners.push('remote-signer'); // last signer is remote (employee) 
 
 				if(body.inputSigningLocation == 'embedded'){
-					app.helpers.getRecipientUrl(envelopeSummary.envelopeId, signer, function(err, data){
+					app.helpers.getRecipientUrl(req, envelopeSummary.envelopeId, signer, function(err, data){
 						if(err){
 							res.send('Error with getRecipientUrl, please try again');
 							return console.error(err);
 						}
 
 						req.session.envelopeId = envelopeSummary.envelopeId;
-						req.session.signingUrl = data.getUrl();
+						req.session.signingUrl = data.url;
 
 						res.redirect('/sign/embedded');
 

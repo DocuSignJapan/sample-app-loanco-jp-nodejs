@@ -170,6 +170,24 @@
           </div>
         </div>
 
+        <h4>
+          融資
+        </h4>
+        <div class="form-group">
+          <label for="inputLoanAmount">ご希望融資額</label>
+          <div>
+            <input type="number" class="form-control" id="inputLoanAmount" name="inputLoanAmount" placeholder="" required value="3600000" style="display:inline-block;width:100px;text-align:center;" /> 円
+          </div>
+          <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group">
+          <label for="inputLoanLength">支払い期間</label>
+          <div>
+            <input type="number" class="form-control" id="inputLoanLength" name="inputLoanLength" placeholder="" required value="36" style="display:inline-block;width:100px;text-align:center;" /> ヵ月
+          </div>
+          <div class="help-block with-errors"></div>
+        </div>
+
 
         <hr />
 
@@ -228,7 +246,7 @@
         </h5>
 
         <p>
-          入力されたフォーム情報が送信された際に、<a href="https://docs.docusign.com/esign/restapi/Envelopes/Envelopes/create/" target="_blank">Envelopes: create</a> APIを使って、対応したフォーム内容を元に署名リクエストを生成します。作成されるエンベロープは、<code>document</code> 、<code>signer</code> の受信者タイプ、それからフォームに入力された情報を含む <code>tabs</code> で構成されます。埋め込み署名が選択されている場合、受信者として <code>clientUserId</code> の設定が必要です。
+          入力されたフォーム情報が送信された際に、<a href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create" target="_blank">Envelopes: create</a> APIを使って、対応したフォーム内容を元に署名リクエストを生成します。作成されるエンベロープは、<code>document</code> 、<code>signer</code> の受信者タイプ、それからフォームに入力された情報を含む <code>tabs</code> で構成されます。埋め込み署名が選択されている場合、受信者として <code>clientUserId</code> の設定が必要です。
         </p> 
         
         <p>
@@ -402,7 +420,7 @@ POST /v2/accounts/{accountId}/envelopes
         </h5>
 
         <p>
-          埋め込み署名が選択された場合、受信者用の署名URLを生成するため、<a href="https://docs.docusign.com/esign/restapi/Envelopes/EnvelopeViews/createRecipient/" target="_blank">EnvelopeViews: createRecipient</a> APIを次に利用します。正しく動作させるために、ステップ1でエンベロープが送信された際の受信者を <code>clientUserId</code> プロパティにセットする必要があります。
+          埋め込み署名が選択された場合、受信者用の署名URLを生成するため、<a href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeViews/createRecipient" target="_blank">EnvelopeViews: createRecipient</a> APIを次に利用します。正しく動作させるために、ステップ1でエンベロープが送信された際の受信者を <code>clientUserId</code> プロパティにセットする必要があります。
         </p>
 
         <p>

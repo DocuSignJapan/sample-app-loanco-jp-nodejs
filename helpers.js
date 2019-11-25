@@ -4,6 +4,8 @@ var _ = require('lodash');
 var fs = require('fs');
 var path = require('path');
 var Q = require('q');
+var dsAuthCodeGrant = require('./DSAuthCodeGrant');
+
 
 var helpers = {};
 
@@ -12,7 +14,7 @@ helpers.signing_location_options = ['embedded', 'remote'];
 helpers.authentication_options = ['none','phone','idcheck'];
 
 helpers.makeTab = function makeTab(type, data) {
-  // https://docs.docusign.com/esign/restapi/Envelopes/EnvelopeTabs/
+  // https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeRecipientTabs
 
   // SignHere
   // Custom
@@ -21,8 +23,7 @@ helpers.makeTab = function makeTab(type, data) {
   // InitialHereOptional
   // etc.
 
-  tab = new docusign[type]();
-  tab.constructFromObject(data);
+  let tab = docusign[type].constructFromObject(data);
   return tab;
 }
 
@@ -45,25 +46,34 @@ helpers.getLocalDocument = function getLocalDocument(filepath){
 
 }
 
-helpers.getRecipientUrl = function getRecipientUrl(envelopeId, recipient, callback){
+helpers.getRecipientUrl = function getRecipientUrl(req, envelopeId, recipient, callback){
 
-    // set the url where you want the recipient to go once they are done signing
+  // set the url where you want the recipient to go once they are done signing
     // - this can be used by your app to watch the URL and detect when signing has completed (or was canceled) 
     var returnUrl = new docusign.RecipientViewRequest();
-    returnUrl.setReturnUrl(app.config.auth.LocalReturnUrl + 'pop/' + envelopeId);
-    returnUrl.setAuthenticationMethod('email');
+    returnUrl.returnUrl = process.env.LOCAL_RETURN_URL + 'pop/' + envelopeId;
+    returnUrl.authenticationMethod = 'email';
 
     // recipient information must match embedded recipient info we provided
-    returnUrl.setUserName(recipient.name);
-    returnUrl.setEmail(recipient.email);
-    returnUrl.setRecipientId(recipient.recipientId);
-    returnUrl.setClientUserId(recipient.clientUserId);
+    returnUrl.userName = recipient.name || recipient.hostName;
+    returnUrl.email = recipient.email || recipient.hostEmail;
+    returnUrl.recipientId = recipient.recipientId;
+    returnUrl.clientUserId = recipient.clientUserId;
+
+    app.helpers.removeEmptyAndNulls(returnUrl);
+
+    // set the required authentication information
+    let dsApiClient = new docusign.ApiClient();
+    dsApiClient.setBasePath(req.session.basePath);
+    dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsAuthCodeGrant.prototype.getAccessToken());
 
     // instantiate a new EnvelopesApi object
-    var envelopesApi = new docusign.EnvelopesApi();
+    var envelopesApi = new docusign.EnvelopesApi(dsApiClient);
+
+    // console.log(JSON.stringify(returnUrl,null,2));
 
     // call the CreateRecipientView API
-    envelopesApi.createRecipientView(app.config.auth.AccountId, envelopeId, returnUrl, function (error, recipientView, response) {
+    envelopesApi.createRecipientView(req.session.accountId, envelopeId, {recipientViewRequest: returnUrl}, function (error, recipientView, response) {
       if (error) {
         console.log('createRecipientView Error');
         // console.error(error.error);
@@ -113,25 +123,32 @@ helpers.createAndSaveLocal = function createAndSaveLocal(req, envelopeId){
   // saving the envelope locally 
   var def = Q.defer();
 
-  // instantiate a new EnvelopesApi object
-  var envelopesApi = new docusign.EnvelopesApi();
+	// set the required authentication information
+	let dsApiClient = new docusign.ApiClient();
+	dsApiClient.setBasePath(req.session.basePath);
+  dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsAuthCodeGrant.prototype.getAccessToken());
+
+	// instantiate a new EnvelopesApi object
+	var envelopesApi = new docusign.EnvelopesApi(dsApiClient);
 
     // Request the envelope
   // - not including the documents yet
-  envelopesApi.getEnvelope(app.config.auth.AccountId, envelopeId, {include: false}, function (error, envelopeSummary, response) {
+  envelopesApi.getEnvelope(req.session.accountId, envelopeId, {include: false}, function (error, envelopeSummary, response) {
 
     // get the document information
-    envelopesApi.listDocuments(app.config.auth.AccountId, envelopeId, function (error, documents, response) {
+    envelopesApi.listDocuments(req.session.accountId, envelopeId, function (error, documents, response) {
       if (error) {
         console.log('Error: ' + error);
+        console.log('Response: ' + response.text);
         def.reject();
         return;
       }
 
       // get the recipients
-      envelopesApi.listRecipients(app.config.auth.AccountId, envelopeId, function (error, recipients, response) {
+      envelopesApi.listRecipients(req.session.accountId, envelopeId, function (error, recipients, response) {
         if (error) {
           console.log('Error: ' + error);
+          console.log('Response: ' + response.text);
           def.reject();
           return;
         }

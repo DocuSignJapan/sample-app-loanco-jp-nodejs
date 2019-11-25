@@ -6,53 +6,77 @@ var _ = require('lodash');
 var docusign = require('docusign-esign'),
   async = require('async'),
   fs = require('fs'),
-  path = require('path');
+  path = require('path'),
+  dsAuthCodeGrant = require('../DSAuthCodeGrant');
 
 router.get('/loan/personal', function(req, res, next) {
-	res.render('loan-personal', {
-		signing_location_options: app.helpers.signing_location_options,
-		authentication_options: app.helpers.authentication_options
-	});
+    let tokenOK = dsAuthCodeGrant.prototype.checkToken(3);
+    if (! tokenOK) {
+		req.session.loan = 'personal';
+		dsAuthCodeGrant.prototype.login(req, res, next)    
+	}
+	else {	
+		res.render('loan-personal', {
+			signing_location_options: app.helpers.signing_location_options,
+			authentication_options: app.helpers.authentication_options
+		});
+	}
 });
 
+
 router.post('/loan/personal', function(req, res, next) {
-	// console.log('BODY:', typeof req.body, req.body.inputEmail, req.body);
+		
+	console.log ('Starting processing of personal loan information');
 
 	var body = req.body;
 
+	// set the required authentication information
+	let dsApiClient = new docusign.ApiClient();
+	dsApiClient.setBasePath(req.session.basePath);
+    dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsAuthCodeGrant.prototype.getAccessToken());
+
+	// instantiate a new EnvelopesApi object
+	var envelopesApi = new docusign.EnvelopesApi(dsApiClient);
+
 	// create an envelope that will store the document(s), field(s), and recipient(s)
 	var envDef = new docusign.EnvelopeDefinition();
-	envDef.setEmailSubject('Personal Loan Application');
-	envDef.setEmailBlurb('Please sign the Loan application to start the application process.');
+	envDef.emailSubject = 'Personal Loan Application';
+	envDef.emailBlurb = 'Please sign the Loan application to start the application process.';
 
 	// add a document to the envelope
 	var doc = new docusign.Document();
 	var file1Base64 = app.helpers.getLocalDocument('pdfs/LoanPersonal.docx');
 	// var base64Doc = new Buffer(file1Base64).toString('base64');
-	doc.setDocumentBase64(file1Base64);
-	doc.setName('Document'); // can be different from actual file name
-	doc.setFileExtension('docx');
-	doc.setDocumentId('1'); // hardcode so we can easily refer to this document later
+	doc.documentBase64 = file1Base64;
+	doc.name = 'Document' ; // can be different from actual file name
+	doc.fileExtension = 'docx';
+	doc.documentId = '1'; // hardcode so we can easily refer to this document later
 
 	var docs = [];
 	docs.push(doc);
-	envDef.setDocuments(docs);
+	envDef.documents = docs;
 
 
 	// Recipient
 	var signer = new docusign.Signer();
-	signer.setEmail(body.inputEmail);
-	signer.setName(body.inputFirstName + ' ' + body.inputLastName);
-	signer.setRecipientId('1');
+	signer.email = body.inputEmail;
+	signer.name = body.inputFirstName + ' ' + body.inputLastName;
+	signer.recipientId = '1';
 	if(body.inputSigningLocation == 'embedded'){
-		signer.setClientUserId('1001');
+		signer.clientUserId = '1001';
 	}
 	if(body.inputAuthentication == 'phone'){
 		app.helpers.addPhoneAuthToRecipient(signer, body.inputPhone);
 	}
 	if(body.inputAccessCode && body.inputAccessCode.length){
-		signer.setAccessCode(body.inputAccessCode);
+		signer.accessCode = body.inputAccessCode;
 	}
+
+	// recipientEmailNotification --------------------
+	signer.recipientEmailNotification = new docusign.RecipientEmailNotification();
+	signer.recipientEmailNotification.supportedLanguage = 'ja';
+	// -----------------------------------------------
+
 
 
 	// Tabs
@@ -141,7 +165,7 @@ router.post('/loan/personal', function(req, res, next) {
 	}));
 
 	// Amount
-	tabList.number.push(app.helpers.makeTab('Number', {
+	tabList.number.push(app.helpers.makeTab('Text', {
 		recipientId: '1',
 		name: 'Amount',
 		tabLabel: 'Amount',
@@ -153,7 +177,7 @@ router.post('/loan/personal', function(req, res, next) {
 	}));
 	
 	// Payment payback period (months) 
-	tabList.number.push(app.helpers.makeTab('Number', {
+	tabList.number.push(app.helpers.makeTab('Text', {
 		recipientId: '1',
 		name: 'PaymentDuration',
 		tabLabel: 'PaymentDuration',
@@ -186,53 +210,50 @@ router.post('/loan/personal', function(req, res, next) {
 
 
 	var tabs = new docusign.Tabs();
-	tabs.setTextTabs(tabList.text);
-	tabs.setNumberTabs(tabList.number);
-	tabs.setFormulaTabs(tabList.formula);
-	tabs.setEmailTabs(tabList.email);
-	tabs.setFullNameTabs(tabList.fullName);
-	tabs.setSignHereTabs(tabList.signHere);
-	tabs.setInitialHereTabs(tabList.initialHere);
-	tabs.setDateSignedTabs(tabList.dateSigned);
+	tabs.textTabs = tabList.text;
+	tabs.numberTabs = tabList.number;
+	tabs.formulaTabs = tabList.formula;
+	tabs.emailTabs = tabList.email;
+	tabs.fullNameTabs = tabList.fullName;
+	tabs.signHereTabs = tabList.signHere;
+	tabs.initialHereTabs = tabList.initialHere;
+	tabs.dateSignedTabs = tabList.dateSigned;
 
-	signer.setTabs(tabs);
+	signer.tabs= tabs;
 
 	// add recipients (in this case a single signer) to the envelope
-	envDef.setRecipients(new docusign.Recipients());
-	envDef.getRecipients().setSigners([]);
-	envDef.getRecipients().getSigners().push(signer);
+	envDef.recipients = new docusign.Recipients();
+	envDef.recipients.signers = [];
+	envDef.recipients.signers.push(signer);
 
 	// send the envelope by setting |status| to "sent". To save as a draft set to "created"
 	// - note that the envelope will only be 'sent' when it reaches the DocuSign server with the 'sent' status (not in the following call)
-	envDef.setStatus('sent');
-
-	// instantiate a new EnvelopesApi object
-	var envelopesApi = new docusign.EnvelopesApi();
+	envDef.status = 'sent';
 
 	app.helpers.removeEmptyAndNulls(envDef);
 
 	// call the createEnvelope() API
-	envelopesApi.createEnvelope(app.config.auth.AccountId, envDef, null, function (error, envelopeSummary, response) {
+	envelopesApi.createEnvelope(req.session.accountId, {envelopeDefinition: envDef}, function (error, envelopeSummary, response) {
 		if (error) {
-			console.error('Error: ' + response);
-			console.error(envelopeSummary);
+			console.error('Error: ' + response.text);
 			res.send('Error creating envelope, please try again');
 			return;
 		}
 
 		// Create and save envelope locally (temporary)
+		console.log('envelope created with envelopeID = ' + envelopeSummary.envelopeId);
 		app.helpers.createAndSaveLocal(req, envelopeSummary.envelopeId)
 		.then(function(){
 
 			if(body.inputSigningLocation == 'embedded'){
-				app.helpers.getRecipientUrl(envelopeSummary.envelopeId, signer, function(err, data){
+				app.helpers.getRecipientUrl(req, envelopeSummary.envelopeId, signer, function(err, data){
 					if(err){
 						res.send('Error with getRecipientUrl, please try again');
 						return console.error(err);
 					}
 
 					req.session.envelopeId = envelopeSummary.envelopeId;
-					req.session.signingUrl = data.getUrl();
+					req.session.signingUrl = data.url;
 
 					res.redirect('/sign/embedded');
 
@@ -244,7 +265,8 @@ router.post('/loan/personal', function(req, res, next) {
 		});
 
 	});
-});
+}); 
+
 
 module.exports = router;
 

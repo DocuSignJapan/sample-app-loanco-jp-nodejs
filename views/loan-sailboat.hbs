@@ -213,7 +213,7 @@
         </h5>
 
         <p>
-          入力されたフォーム情報が送信された際に、<a href="https://docs.docusign.com/esign/restapi/Envelopes/Envelopes/create/" target="_blank">Envelopes: create</a> APIを使って、対応したフォーム内容を元に署名リクエストを生成します。署名する <code>Documents</code>、エンベロープに任意の画像ファイルを添付するための <code>signerAttachmentTab</code> を利用します。 <code>AccessCode</code> や電話認証、IDチェックなどの追加認証も設定することが可能です。また、埋め込み署名もしくはリモート署名を使って署名することが可能です。
+          入力されたフォーム情報が送信された際に、<a href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeViews/createRecipient" target="_blank">Envelopes: create</a> APIを使って、対応したフォーム内容を元に署名リクエストを生成します。署名する <code>Documents</code>、エンベロープに任意の画像ファイルを添付するための<code>signerAttachmentTab</code> を利用します。 <code>AccessCode</code> や電話認証、IDチェックなどの追加認証も設定することが可能です。また、埋め込み署名もしくはリモート署名を使って署名することが可能です。
         </p> 
 
         <p>
@@ -225,7 +225,6 @@
           <ul>
             <li>
               エンベロープ内の1つのドキュメントについて、ある受信者向けにフィールドが設定されている場合、もしくは全くフィールドが設定されていない場合、そのある受信者はそのドキュメントは参照できる
-              You can only show documents to a recipient if they have a tab on the document or nobody has a tab on the document
             </li>
             <li>
               ある受信者について、1つのドキュメントを参照不可にしたい場合、他の受信者向けフィールドを設定しつつ、そのドキュメントにある受信者用フィールドを設定しないことで、そのドキュメントは表示されなくなる。そのドキュメントに、他の受信者用フィールドが設定されていると、自動的にフィールドがない受信者には非表示となる。フィールドがいずれの受信者向けにも存在しない場合は、自動非表示とはならない。
@@ -267,7 +266,12 @@
     }
 </pre>
         <p>
-          また、<a href="https://www.docusign.com/developer-center/explore/features/stick-etabs#tab-positioning" target="_blank">Auto-Place</a> 機能を使って、フィールドを自動配置しています。(注:  <code>anchorString</code>、 <code>anchorXOffset</code>、<code>anchorYOffset</code> )
+          また、<a href="https://developers.docusign.com/esign-rest-api/guides/features/tabs#tab-locations-and-positioning" target="_blank">Auto-Place</a> 機能を使って、フィールドを自動配置しています。(注:  <code>anchorString</code>、<code>anchorXOffset</code>、<code>anchorYOffset</code> ) 
+
+          <br />
+
+          <strong>注: </strong> これを実行したときにエラーメッセージが表示される場合、アカウント設定に問題がある可能性があります。詳しくは<a href="https://github.com/docusign/sample-app-loanco-nodejs/blob/master/README.md" target="_blank">README</a>を参照してください。
+          
         </p>
 
         <p>
@@ -425,11 +429,11 @@ POST /v2/accounts/{accountId}/envelopes
         </div>
 
         <h5>
-          Step 2
+          ステップ 2
         </h5>
 
         <p>
-          埋め込み署名が選択された場合、受信者用の署名URLを生成するため、<a href="https://docs.docusign.com/esign/restapi/Envelopes/EnvelopeViews/createRecipient/" target="_blank">EnvelopeViews: createRecipient</a> APIを次に利用します。正しく動作させるために、ステップ1でエンベロープが送信された際の受信者を <code>clientUserId</code> プロパティにセットする必要があります。
+          埋め込み署名が選択された場合、受信者用の署名URLを生成するため、<a href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create" target="_blank">EnvelopeViews: createRecipient</a> APIを次に利用します。正しく動作させるために、ステップ1でエンベロープが送信された際の受信者を <code>clientUserId</code> プロパティにセットする必要があります。
         </p>
 
         <p>

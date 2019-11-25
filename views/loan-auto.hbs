@@ -262,7 +262,7 @@
         </h5>
 
         <p>
-          入力されたフォーム情報が送信された際に、<a href="https://docs.docusign.com/esign/restapi/Envelopes/Envelopes/create/" target="_blank">Envelopes: create</a> APIを使って、対応したフォーム内容を元に署名リクエストを生成します。本ケースではテンプレートを利用しているため、<code>templateId</code> プロパティでエンベロープとして用いるテンプレートを指定し、 <code>templateRoles</code> ノード内でテンプレートのロールに対して受信者を割り当てます。 
+          入力されたフォーム情報が送信された際に、<a href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/Envelopes/create" target="_blank">Envelopes: create</a> APIを使って、対応したフォーム内容を元に署名リクエストを生成します。本ケースではテンプレートを利用しているため、<code>templateId</code> プロパティでエンベロープとして用いるテンプレートを指定し、 <code>templateRoles</code> ノード内でテンプレートのロールに対して受信者を割り当てます。 
         </p>
           
         <p>
@@ -340,7 +340,7 @@ POST /v2/accounts/{accountId}/envelopes
         </h5>
 
         <p>
-          埋め込み署名が選択された場合、受信者用の署名URLを生成するため、<a href="https://docs.docusign.com/esign/restapi/Envelopes/EnvelopeViews/createRecipient/" target="_blank">EnvelopeViews: createRecipient</a> APIを次に利用します。正しく動作させるために、ステップ1でエンベロープが送信された際の受信者を <code>clientUserId</code> プロパティにセットする必要があります。
+          埋め込み署名が選択された場合、受信者用の署名URLを生成するため、<a href="https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeViews/createRecipient" target="_blank">EnvelopeViews: createRecipient</a> APIを次に利用します。正しく動作させるために、ステップ1でエンベロープが送信された際の受信者を <code>clientUserId</code> プロパティにセットする必要があります。
         </p>
 
         <p>

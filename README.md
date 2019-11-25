@@ -5,7 +5,7 @@ LoanCoは、アプリケーションがDocuSign eSignature APIとやりとりす
 
 #### 要件
 
-- [Free Developer Sandbox](https://secure.docusign.com/signup/develop)
+- [Free Developer Sandbox](https://go.docusign.com/sandbox/productshot?elq=16799)
 - [Node.js](https://nodejs.org/en/)
 
 
@@ -24,23 +24,20 @@ LoanCoは、アプリケーションがDocuSign eSignature APIとやりとりす
 
 #### 設定 
 
-> DocuSignには、アプリを認証する複数の方法があります。この例（ユーザー名 / パスワード / インテグレーターキーをローカルに保存し、カスタム`X-DocuSign-Authentication` ヘッダーに設定して送信する）は、[レガシー認証](https://docs.docusign.com/esign/guide/authentication/legacy_auth.html)と呼ばれています。また、[OAuth2] (https://docs.docusign.com/esign/guide/authentication/auth_server.html) Authorization Code GrantメソッドとImplicit Grantメソッドを使用して認証することもできます。
+> DocuSign has multiple ways of authenticating your app. This example is using Code Grant, which requires us to store a ClientSecret in addition to the Integration Key. read more about different authentication methods at https://developers.docusign.com/esign-rest-api/guides/authentication
 
-環境変数を使用して構成を設定します。これらの変数は、ルートの `.env`ファイルに格納することができます(`dotenv`パッケージが使用されます) 
 
     DOCUSIGN_ENVIRONMENT=demo  // use "www" for production  
-    DOCUSIGN_USERNAME=         // account email address  
-    DOCUSIGN_PASSWORD=         // account password
-    DOCUSIGN_IK=               // Integrator Key 
+	DOCUSIGN_IK=               // Integration Key 
+    DOCUSIGN_CLIENT_SECRET=    // Client Secret Key 
     EMPLOYEE_EMAIL=            // used for final recipient of Personal Loan
     EMPLOYEE_NAME=             // used for final recipient of Personal Loan
     LOCAL_RETURN_URL=http://localhost/   // change to the correct return url, with a trailing slash
     BRAND_ID=                  // not required, use to show a different Brand for the Sailboat example 
     GOOGLE_MAPS_API_KEY=       // required for Sailboat example to work
-    GOOGLE_ANALYTICS=          // UA-XYZ-1
+    GOOGLE_TAG_MANAGER=        // GTM-XYZ
     DEFAULT_EMAIL=             // for autofilling email input fields
     FORCE_HTTPS=               // force https by setting to true
-    USE_LOCAL_CERTS=           // Start HTTPS listening with ./sslcerts by true. if false, HTTP server only
 
 
 ##### テンプレート 
@@ -112,13 +109,13 @@ https://admindemo.docusign.com/sending-settings の設定にそって、http://i
 #### APIツールとリンク
 
 __Developer Center__  
-https://www.docusign.com/devcenter
+https://developers.docusign.com
 
-__API レシピ (code walkthroughs)__  
-https://www.docusign.com/developer-center/recipes
+__API Code Examples__  
+https://developers.docusign.com/esign-rest-api/code-examples
 
 __API Documentation__  
-https://docs.docusign.com/  
+https://developers.docusign.com/esign-rest-api/reference
 
 __API Explorer__  
 https://apiexplorer.docusign.com/  

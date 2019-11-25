@@ -38,7 +38,7 @@ router.get('/sign/embedded', function(req, res){
 
 router.get('/sign/return', function(req, res){
 
-	// https://docs.docusign.com/esign/guide/usage/embedded_signing.html
+	// https://developers.docusign.com/esign-rest-api/reference/Envelopes/EnvelopeViews/createRecipient
 
 	// signing_complete (signer completed the signing ceremony)
 	// cancel (recipient canceled the signing operation)

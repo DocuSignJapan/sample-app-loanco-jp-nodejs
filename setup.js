@@ -1,18 +1,22 @@
 var docusign = require('docusign-esign');
 var Q = require('q');
 var _ = require('lodash');
+var dsAuthCodeGrant = require('./DSAuthCodeGrant');
 
 var setup = {};
 
-setup.Templates = function(next){
+setup.Templates = function(req, next){
   // Ensure template exists (with an exact name)
   // - create if not exists, using local json
-  // - template json pre-compiled to handle/avoid docusign bug (SignHere gets moved 21 points, InitialHere 16 points)
 
+	// set the required authentication information
+	let dsApiClient = new docusign.ApiClient();
+	dsApiClient.setBasePath(req.session.basePath);
+  dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsAuthCodeGrant.prototype.getAccessToken());
 
-  // login call available off the AuthenticationApi
-  var templatesApi = new docusign.TemplatesApi();
-  templatesApi.listTemplates(app.config.auth.AccountId, function (error, templateList, response) {
+	// instantiate a new TemplatesApi object
+  var templatesApi = new docusign.TemplatesApi(dsApiClient);
+  templatesApi.listTemplates(req.session.accountId, function (error, templateList, response) {
 
     var promises = [];
 
@@ -26,12 +30,11 @@ setup.Templates = function(next){
 
       if(template){
         app.config.templatesByKey[templateObj.key].id = template.templateId;
-        // console.log(app.config);
         console.log('--Template Exists--');
         templateDef.resolve();
       } else {
         console.log('--Template Creating--');
-        setup.InsertTemplate(templateObj)
+        setup.InsertTemplate(req, templateObj)
         .then(templateDef.resolve);
       }
 
@@ -46,7 +49,7 @@ setup.Templates = function(next){
   });
 }
 
-setup.InsertTemplate = function(templateObj){
+setup.InsertTemplate = function(req, templateObj){
 
     var def = Q.defer();
 
@@ -59,13 +62,8 @@ setup.InsertTemplate = function(templateObj){
     // load json into constructor
     var templateDef = new docusign.EnvelopeTemplateDefinition();
     try {
-      templateDef.constructFromObject(templateJson);
-
-      var template = new docusign.EnvelopeTemplate();
-      template.constructFromObject(templateJson);
-      template.setEnvelopeTemplateDefinition(templateDef);
+      var template = new docusign.EnvelopeTemplate.constructFromObject(templateJson);
     }catch(err){
-      console.error('--Templates cannot be creating using NodeJS SDK (yet, bug to-be-fixed)! --');
       console.error(err.stack);
       def.resolve();
       return def.promise;
@@ -73,8 +71,13 @@ setup.InsertTemplate = function(templateObj){
 
     app.helpers.removeEmptyAndNulls(template);
 
-    var templatesApi = new docusign.TemplatesApi();
-    templatesApi.createTemplate(app.config.auth.AccountId, template, function (err, templateList, response) {
+    // set the required authentication information
+    let dsApiClient = new docusign.ApiClient();
+    dsApiClient.setBasePath(req.session.basePath);
+    dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsAuthCodeGrant.prototype.getAccessToken());
+
+    var templatesApi = new docusign.TemplatesApi(dsApiClient);
+    templatesApi.createTemplate(req.session.accountId, {envelopeTemplate:template}, function (err, templateList, response) {
       if(err){
         def.reject();
         return console.error(err.response.error);

@@ -5,7 +5,8 @@ var path = require('path');
 var _ = require('lodash');
 var marked = require('marked');
 
-var docusign = require('docusign-esign');
+var docusign = require('docusign-esign'),
+    dsAuthCodeGrant = require('../DSAuthCodeGrant');
 
 router.get('/envelopes/:envelopeId/filelist/', function(req, res, next){
 	app.models.Envelope.findOne({
@@ -22,9 +23,6 @@ router.get('/envelopes/:envelopeId/filelist/', function(req, res, next){
 
 
 router.get('/envelopes/:envelopeId/download/:documentId', function(req, res, next){
-	if (!/^\d+$/.test(req.params.documentId)) {
-		return res.status(400).send('DocumentId must be an integer');
-	}
 	app.models.Envelope.findOne({
 		envelopeId: req.params.envelopeId,
 		sessionId: req.session.id
@@ -37,10 +35,15 @@ router.get('/envelopes/:envelopeId/download/:documentId', function(req, res, nex
 			return res.status(404).send('Missing envelope');	
 		}
 
-	    // instantiate a new EnvelopesApi object
-	    var envelopesApi = new docusign.EnvelopesApi();
+		// set the required authentication information
+		let dsApiClient = new docusign.ApiClient();
+		dsApiClient.setBasePath(req.session.basePath);
+		dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsAuthCodeGrant.prototype.getAccessToken());
 
-		envelopesApi.getDocument(app.config.auth.AccountId, req.params.envelopeId, req.params.documentId, function (error, document, response) {
+		// instantiate a new EnvelopesApi object
+		var envelopesApi = new docusign.EnvelopesApi(dsApiClient);
+
+		envelopesApi.getDocument(req.session.accountId, req.params.envelopeId, req.params.documentId, function (error, document, response) {
 			if (error) {
 				console.log('Error: ' + error);
 				return;
