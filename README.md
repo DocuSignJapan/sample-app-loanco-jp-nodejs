@@ -24,7 +24,7 @@ LoanCoは、アプリケーションがDocuSign eSignature APIとやりとりす
 
 #### 設定 
 
-> DocuSign has multiple ways of authenticating your app. This example is using Code Grant, which requires us to store a ClientSecret in addition to the Integration Key. read more about different authentication methods at https://developers.docusign.com/esign-rest-api/guides/authentication
+> DocuSignには、アプリを認証するための複数の方法があります。この例では、「Code Grant」を使用しています。これには、「Integration Key」に加えて、「ClientSecret」を格納する必要があります。さまざまな認証方法の詳細については、https://developers.docusign.com/esign-rest-api/guides/authentication をご覧ください。
 
 
     DOCUSIGN_ENVIRONMENT=demo  // use "www" for production  
