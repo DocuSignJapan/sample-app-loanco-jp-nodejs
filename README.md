@@ -28,7 +28,7 @@ LoanCoは、アプリケーションがDocuSign eSignature APIとやりとりす
 
 
     DOCUSIGN_ENVIRONMENT=demo  // use "www" for production  
-	DOCUSIGN_IK=               // Integration Key 
+    DOCUSIGN_IK=               // Integration Key 
     DOCUSIGN_CLIENT_SECRET=    // Client Secret Key 
     EMPLOYEE_EMAIL=            // used for final recipient of Personal Loan
     EMPLOYEE_NAME=             // used for final recipient of Personal Loan
